@@ -1,0 +1,24 @@
+[user]
+	name = pith
+	email = pierre.thirouin@gmail.com
+
+[core]
+	editor = vim
+	autocrlf = input
+
+[color]
+	ui = auto
+
+[alias]
+	st = status
+	ci = commit
+	lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ar)%Creset'
+	co = checkout
+	pl = pull --ff-only
+
+[merge]
+	tool = vimdiff
+
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
