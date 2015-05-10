@@ -1,0 +1,1 @@
+alias dot="dotfiles && . ~/.zshrc"
