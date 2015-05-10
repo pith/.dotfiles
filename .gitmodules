@@ -7,3 +7,6 @@
 [submodule "vendor/gibo"]
 	path = vendor/gibo
 	url = git@github.com:simonwhitaker/gibo.git
+[submodule "vendor/z"]
+	path = vendor/z
+	url = git@github.com:rupa/z.git
