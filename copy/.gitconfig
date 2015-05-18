@@ -4,7 +4,7 @@
 
 [core]
 	editor = vim
-	autocrlf = input
+	autocrlf = true
 	trustctime = false
 
 [color]
