@@ -1,1 +1,6 @@
+# Local dirs
+/cache
+/backup
+
+# vim files
 *~
