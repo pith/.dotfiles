@@ -10,3 +10,6 @@
 [submodule "vendor/z"]
 	path = vendor/z
 	url = git@github.com:rupa/z.git
+[submodule "vendor/fonts"]
+	path = vendor/fonts
+	url = git@github.com:powerline/fonts.git
