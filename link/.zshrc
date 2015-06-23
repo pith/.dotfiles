@@ -19,11 +19,6 @@ function src() {
   fi
 }
 
-# Run dotfiles script, then source.
-function dot() {
-  '$DOTFILES/bin/dotfiles run' && src && . ~/.zshrc
-}
-
 src
 
 # User configuration
