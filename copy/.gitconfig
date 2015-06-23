@@ -6,6 +6,7 @@
 	editor = vim
 	autocrlf = input
 	trustctime = false
+	excludesfile = ~/.gitignore_global
 
 [color]
 	ui = auto
