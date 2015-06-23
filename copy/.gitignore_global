@@ -10,3 +10,7 @@
 .swo
 .*.swp
 .*.swo
+
+# Intellij
+/.idea
+*.iml
