@@ -1,9 +1,8 @@
 #!/usr/bin/env zsh
 
-# Where the magic happens.
 export DOTFILES=~/.dotfiles
 
-# Add binaries into the path
+# Add dotfiles binaries into the path
 PATH=$DOTFILES/bin:$PATH
 export PATH
 
@@ -22,4 +21,7 @@ function src() {
 src
 
 # User configuration
-export DEV="$HOME/dev"
+export DEV="$HOME/workspace"
+
+# Initialize the startship prompt (https://starship.rs/)
+eval "$(starship init zsh)"
