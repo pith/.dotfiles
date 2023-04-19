@@ -4,3 +4,9 @@
 
 # vim files
 *~
+
+# Emacs
+.#*
+
+# Private files
+private_*
