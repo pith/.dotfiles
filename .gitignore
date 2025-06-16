@@ -1,0 +1,13 @@
+**/secrets.*
+**/secrets_*
+**/*_secrets.zsh
+
+# LazyVim
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+data
