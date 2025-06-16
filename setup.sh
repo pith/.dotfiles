@@ -6,10 +6,19 @@
 set -euo pipefail
 
 # Install brew
-curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+echo ''
+echo 'Installing Homebrew...'
+echo ''
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install 
+echo ''
+echo 'Homebrew is installed. Installing dependencies...'
+echo ''
 brew bundle --file ./brew/.Brewfile
 
 # Setup dotfiles (create symlinks with GNU stow
-stow aerospace brew git starship vim wezterm
+echo ''
+echo 'Setting up dotfiles...'
+echo ''
+stow aerospace brew git nvim starship vim wezterm zsh
