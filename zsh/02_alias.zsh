@@ -2,6 +2,9 @@
 
 # Git
 alias gst="git status"
+alias gpo="git pull --ff-only origin \$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
+alias gc="git commit"
+alias gca="git add -A && git commit"
 
 # Navigation with cd & eza
 alias ..='cd ..'
