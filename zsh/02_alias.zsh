@@ -19,3 +19,8 @@ alias capt="~/dotfiles/capture.sh"
 
 ## Zoxide
 eval "$(zoxide init zsh --cmd cd)"
+
+alias vim="nvim"
+
+# Alias to install packages with Homebrew
+alias bi="brew bundle add --file=~/.Brewfile"
