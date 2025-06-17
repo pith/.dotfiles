@@ -26,4 +26,4 @@ eval "$(zoxide init zsh --cmd cd)"
 alias vim="nvim"
 
 # Alias to install packages with Homebrew
-alias bi="brew bundle add --file=~/.Brewfile"
+alias bi="brew bundle add --describe --file=~/.Brewfile && brew bundle install --file=~/.Brewfile"
