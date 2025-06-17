@@ -2,6 +2,9 @@
 
 # Git
 alias gst="git status"
+alias gpo="git pull --ff-only origin master"
+alias gc="git commit"
+alias gca="git add -A && git commit"
 
 # Navigation with cd & eza
 alias ..='cd ..'
