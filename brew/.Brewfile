@@ -75,3 +75,5 @@ vscode "ms-vsliveshare.vsliveshare"
 vscode "ryanluker.vscode-coverage-gutters"
 vscode "tamasfe.even-better-toml"
 brew "tlrc"
+
+brew "fnm"
