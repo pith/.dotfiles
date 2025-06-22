@@ -92,7 +92,12 @@ outer.right =      2
 #    activate
 #end tell'
 #'''
-alt-enter = '''exec-and-forget WEZTERM_UNIX_SOCKET=~/.local/share/wezterm/default-org.wezfurlong.wezterm wezterm-gui'''
+#alt-enter = '''exec-and-forget WEZTERM_UNIX_SOCKET=~/.local/share/wezterm/default-org.wezfurlong.wezterm wezterm-gui'''
+alt-enter = '''exec-and-forget bash -c "
+  wezterm &
+  sleep 0.5
+  aerospace focus --app-id com.github.wez.wezterm
+"'''
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
