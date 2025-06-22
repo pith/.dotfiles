@@ -2,9 +2,12 @@
 
 # Git
 alias gst="git status"
-alias gpo="git pull --ff-only origin \$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
+alias gpl="git pull --ff-only origin \$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
 alias gc="git commit"
 alias gca="git add -A && git commit"
+alias gcam="git add -A && git commit --amend"
+alias gcaM="git add -A && git commit --amend --no-edit"
+alias gcm="git po"
 
 # Navigation with cd & eza
 alias ..='cd ..'
@@ -25,5 +28,23 @@ eval "$(zoxide init zsh --cmd cd)"
 
 alias vim="nvim"
 
-# Alias to install packages with Homebrew
-alias bi="brew bundle add --describe --file=~/.Brewfile && brew bundle install --file=~/.Brewfile"
+# Install packages with Homebrew
+bba() {
+  local package="$1"
+  local brewfile=~/.Brewfile
+
+  # Check if the package name exists
+  if [[ -z "$package" ]]; then
+    echo "Usage: bba <package_name>"
+    return 1
+  fi
+
+  # Add package to Brewfile and install it
+  if brew bundle add --describe --file="$brewfile" "$package"; then
+    brew bundle install --file="$brewfile"
+  else
+    echo "Failed to add $package to $brewfile." >&2
+    return 1
+  fi
+}
+
