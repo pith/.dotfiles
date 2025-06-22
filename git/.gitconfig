@@ -22,9 +22,10 @@
 	lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ar)%Creset'
 	co = checkout
 	pl = pull --ff-only
-    po = !git push origin $(git branch --show-current)
-    yolo = !git push --force-with-lease origin $(git branch --show-current)
-    br = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+  po = !git push origin $(git branch --show-current)
+  yolo = !git push --force-with-lease origin $(git branch --show-current)
+  br = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+  pr = !gh pr create --fill
 
 [pull]
     ff = only
