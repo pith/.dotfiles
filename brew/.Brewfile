@@ -77,3 +77,4 @@ vscode "tamasfe.even-better-toml"
 brew "tlrc"
 
 brew "fnm"
+brew "uv"
