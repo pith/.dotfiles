@@ -48,3 +48,9 @@ bba() {
   fi
 }
 
+# Manage dotfiles
+alias dot="vim ~/dotfiles"
+alias dd="source ~/.zshrc"
+
+# Lazy git
+alias lg="lazygit"

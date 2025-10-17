@@ -78,3 +78,4 @@ brew "tlrc"
 
 brew "fnm"
 brew "uv"
+brew "lazygit"
