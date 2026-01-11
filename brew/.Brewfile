@@ -11,8 +11,6 @@ brew "fzf"
 brew "gh"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
-# Modern, extensible Python project management
-brew "hatch"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Kubernetes CLI To Manage Your Clusters In Style!
@@ -23,18 +21,10 @@ brew "kubernetes-cli"
 brew "kubectx"
 # Mac App Store command-line interface
 brew "mas"
-# Open source relational database management system
-brew "mysql-client@8.0"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# Development kit for the Java programming language
-brew "openjdk@17"
-# Development kit for the Java programming language
-brew "openjdk@21"
 # Theme for zsh
 brew "powerlevel10k"
-# Python version management
-brew "pyenv"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
@@ -50,7 +40,7 @@ brew "zsh-history-substring-search"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
 # AeroSpace is an i3-like tiling window manager for macOS
-cask "aerospace"
+# cask "aerospace"
 cask "font-meslo-lg-nerd-font"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
@@ -77,5 +67,4 @@ vscode "tamasfe.even-better-toml"
 brew "tlrc"
 
 brew "fnm"
-brew "uv"
 brew "lazygit"
