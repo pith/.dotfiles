@@ -6,6 +6,120 @@ AI agent instructions for working with this dotfiles repository.
 
 This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, nvim, vim, wezterm (terminal), zsh (shell), and starship (prompt). The primary setup mechanism is `setup.sh`, which installs Homebrew, installs dependencies from `.Brewfile`, and creates symlinks via stow.
 
+## Build, Lint, and Test Commands
+
+**No formal test suite exists.** Manual testing is the primary validation method.
+
+### Linting
+
+```bash
+# Lint shell scripts (if shellcheck installed)
+shellcheck setup.sh capture.sh zsh-config/*.zsh
+
+# Format shell scripts (if shfmt installed)
+shfmt -w -i 2 setup.sh capture.sh
+
+# Format Lua files (Neovim configs)
+cd nvim/.config/nvim && stylua . --config-path stylua.toml
+
+# Validate Brewfile syntax
+brew bundle check --file ./brew/.Brewfile
+```
+
+### Testing
+
+```bash
+# Test stow operations (dry run - safe)
+stow -n -v <package_name>
+
+# Test shell config in isolated session
+zsh -c 'source ~/zsh-config/02_alias.zsh && alias'
+
+# Test individual zsh config file
+zsh -c 'source zsh-config/03_fzf.zsh && echo "Loaded successfully"'
+
+# Full integration test (use with caution)
+./setup.sh  # Only safe on fresh system or VM
+
+# Validate TOML configs
+# AeroSpace: No CLI validator available, restart AeroSpace to test
+# Starship: starship config (validates starship.toml)
+starship config
+```
+
+### Manual Validation Workflow
+
+1. Edit config files in dotfiles repo
+2. If directory structure changed: `stow -R <package>`
+3. Reload config: `source ~/.zshrc` or restart application
+4. Test functionality manually
+5. Commit if working
+
+## Code Style Guidelines
+
+### Shell Scripts (Zsh)
+
+**Required:**
+- Use `#!/bin/zsh` or `#!/usr/bin/env zsh` shebang
+- Start scripts with `set -euo pipefail` (exit on error, undefined vars, pipe failures)
+- Quote all variables: `"$VARIABLE_NAME"`
+- Use uppercase for exported variables, lowercase for local
+
+**Naming:**
+- Variables: `SCREAMING_SNAKE_CASE` for globals, `lowercase_with_underscores` for locals
+- Functions: `lowercase_with_underscores()`
+- Aliases: Short lowercase (e.g., `gst`, `gc`)
+
+**Error Handling:**
+```bash
+if [ ! -e "$PATH" ]; then
+    echo "Error: Path does not exist" >&2
+    exit 1
+fi
+```
+
+**Comments:**
+- Header with usage examples for scripts
+- Inline comments for complex logic
+- Section headers: `#### Section Name ####`
+
+### Lua (Neovim, WezTerm)
+
+**Style:**
+- 2-space indentation (enforced by stylua)
+- 120 character line width
+- Use `local` for all variables
+- Single-line comments: `--`
+- Return config objects
+
+**Example:**
+```lua
+local config = require("module")
+
+local settings = {
+  key = "value",
+  nested = {
+    inner = "value"
+  }
+}
+
+return settings
+```
+
+### TOML (AeroSpace, Starship)
+
+- Use kebab-case for keys: `start-at-login`
+- Inline comments after values for clarification
+- Section comments with documentation links
+
+### File Organization
+
+**zsh-config/ naming:**
+- `01_*.zsh` - System configuration (PATH)
+- `02_*.zsh` - Shell behavior (aliases, completion, prompt)
+- `03_*.zsh` - Tool-specific configs
+- `secret_*.zsh` - Never commit (in .gitignore)
+
 ## Structure & Organization
 
 ```
@@ -117,22 +231,6 @@ dotfiles/
 **Update `capture.sh` when:**
 - Changing how new dotfiles are imported
 - Modifying backup or symlink behavior
-
-### Testing Approach
-
-```bash
-# Test brew changes
-brew bundle check --file ./brew/.Brewfile
-
-# Test stow without applying
-stow -n -v <package>
-
-# Test zsh config in isolation
-zsh -c 'source ~/zsh-config/02_alias.zsh && alias'
-
-# Full integration test
-./setup.sh  # Only on fresh system or VM!
-```
 
 ## Common Operations
 
