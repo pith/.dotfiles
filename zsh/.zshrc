@@ -2,3 +2,9 @@
 for config_file in ~/dotfiles/zsh-config/*.zsh; do
   source "$config_file"
 done
+
+# Added by Antigravity
+export PATH="/Users/pith/.antigravity/antigravity/bin:$PATH"
+
+# Mammouth Code
+export PATH="$HOME/.mammouth/bin:$PATH"
