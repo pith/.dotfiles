@@ -1,4 +1,6 @@
 tap "nikitabobko/tap"
+# The minimal, blazing-fast, and infinitely customizable prompt for any shell! https://starship.rs/guide/#%F0%9F%9A%80-installation
+brew "starship"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Modern, maintained replacement for ls
