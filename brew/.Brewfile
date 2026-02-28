@@ -70,3 +70,4 @@ brew "tlrc"
 
 brew "fnm"
 brew "lazygit"
+brew "tree-sitter"
