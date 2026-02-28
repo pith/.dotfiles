@@ -1,1 +1,4 @@
 .nvmrc
+.claude/settings.local.json
+.playwright-mcp/
+*.local.md

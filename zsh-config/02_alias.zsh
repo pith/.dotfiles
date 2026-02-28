@@ -24,7 +24,11 @@ alias cat="bat"
 alias capt="~/dotfiles/capture.sh"
 
 ## Zoxide
-eval "$(zoxide init zsh --cmd cd)"
+if [[ -o interactive ]]; then
+  eval "$(zoxide init zsh --cmd cd)"
+else
+  eval "$(zoxide init zsh --no-cmd)"
+fi
 
 alias vim="nvim"
 
