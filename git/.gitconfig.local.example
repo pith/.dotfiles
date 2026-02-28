@@ -1,0 +1,6 @@
+# Machine-specific git configuration
+# Copy to ~/.gitconfig.local and customize
+[user]
+	name = Your Name
+	email = your.email@example.com
+	signingkey = ~/.ssh/id_ed25519.pub

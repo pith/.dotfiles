@@ -1,7 +1,5 @@
-[user]
-	name = Pierre Thirouin
-	email = pierre.thirouin@doctolib.com
-	signingkey = /Users/pierre.thirouin/.ssh/id_ed25519.pub
+[include]
+	path = ~/.gitconfig.local
 
 [core]
 	editor = nvim
