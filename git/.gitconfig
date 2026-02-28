@@ -1,6 +1,7 @@
 [user]
 	name = Pierre Thirouin
-	email = pierre.thirouin@blablacar.com
+	email = pierre.thirouin@doctolib.com
+	signingkey = /Users/pierre.thirouin/.ssh/id_ed25519.pub
 
 [core]
 	editor = nvim
@@ -38,3 +39,9 @@
 	smudge = git-media-smudge %f
 [push]
 	default = matching
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[init]
+	defaultBranch = main
