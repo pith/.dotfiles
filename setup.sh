@@ -22,3 +22,6 @@ echo ''
 echo 'Setting up dotfiles...'
 echo ''
 stow aerospace brew git nvim starship vim wezterm zsh
+
+# Create local directory for machine-specific secrets (not in git)
+mkdir -p ~/.config/zsh/local
