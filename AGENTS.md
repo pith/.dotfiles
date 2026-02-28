@@ -131,8 +131,9 @@ dotfiles/
 ├── aerospace/
 │   └── .config/aerospace/  # Window manager config
 ├── git/
-│   ├── .gitconfig        # Git configuration
-│   └── .gitignore_global # Global git ignore patterns
+│   ├── .gitconfig              # Git configuration (shared, no personal info)
+│   ├── .gitconfig.local.example # Template for machine-specific [user] section
+│   └── .gitignore_global       # Global git ignore patterns
 ├── nvim/
 │   └── .config/nvim/     # Neovim configuration
 ├── starship/
@@ -164,6 +165,7 @@ dotfiles/
 - Zsh configs live in `zsh/.config/zsh/` (XDG-compliant, stow-managed → `~/.config/zsh/`)
 - Numbered prefixes in `zsh/.config/zsh/` control load order
 - Machine-local secrets go in `zsh/.config/zsh/local/` (gitignored)
+- Machine-specific git config goes in `~/.gitconfig.local` (gitignored via `*.local`)
 
 ## AI Agent Guidelines
 
@@ -199,6 +201,8 @@ dotfiles/
 ### Dependencies Between Configs
 
 **Critical dependencies:**
+- `git/.gitconfig` uses `[include] path = ~/.gitconfig.local` for personal info (name, email, signingkey)
+- `~/.gitconfig.local` is created by `setup.sh` on first run (not in git, `*.local` is gitignored)
 - `zsh/.zshrc` sources `~/.config/zsh/*.zsh` and `~/.config/zsh/local/*.zsh`
 - FZF config requires `brew install fzf`
 - Starship prompt requires `brew install starship` + init in `.zshrc`
