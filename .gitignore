@@ -1,6 +1,9 @@
 **/secrets.*
 **/secrets_*
+**/secret_*
 **/*_secrets.zsh
+**/local/
+*.local
 
 # LazyVim
 tt.*

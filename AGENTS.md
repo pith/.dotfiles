@@ -14,7 +14,7 @@ This repository contains personal macOS dotfiles managed with GNU stow for autom
 
 ```bash
 # Lint shell scripts (if shellcheck installed)
-shellcheck setup.sh capture.sh zsh-config/*.zsh
+shellcheck setup.sh capture.sh zsh/.config/zsh/*.zsh
 
 # Format shell scripts (if shfmt installed)
 shfmt -w -i 2 setup.sh capture.sh
@@ -33,10 +33,10 @@ brew bundle check --file ./brew/.Brewfile
 stow -n -v <package_name>
 
 # Test shell config in isolated session
-zsh -c 'source ~/zsh-config/02_alias.zsh && alias'
+zsh -c 'source ~/.config/zsh/02_alias.zsh && alias'
 
 # Test individual zsh config file
-zsh -c 'source zsh-config/03_fzf.zsh && echo "Loaded successfully"'
+zsh -c 'source ~/.config/zsh/03_fzf.zsh && echo "Loaded successfully"'
 
 # Full integration test (use with caution)
 ./setup.sh  # Only safe on fresh system or VM
@@ -114,11 +114,11 @@ return settings
 
 ### File Organization
 
-**zsh-config/ naming:**
+**zsh/.config/zsh/ naming:**
 - `01_*.zsh` - System configuration (PATH)
 - `02_*.zsh` - Shell behavior (aliases, completion, prompt)
 - `03_*.zsh` - Tool-specific configs
-- `secret_*.zsh` - Never commit (in .gitignore)
+- `local/` - Machine-local secrets (gitignored, not in git)
 
 ## Structure & Organization
 
@@ -131,8 +131,9 @@ dotfiles/
 ├── aerospace/
 │   └── .config/aerospace/  # Window manager config
 ├── git/
-│   ├── .gitconfig        # Git configuration
-│   └── .gitignore_global # Global git ignore patterns
+│   ├── .gitconfig              # Git configuration (shared, no personal info)
+│   ├── .gitconfig.local.example # Template for machine-specific [user] section
+│   └── .gitignore_global       # Global git ignore patterns
 ├── nvim/
 │   └── .config/nvim/     # Neovim configuration
 ├── starship/
@@ -141,26 +142,30 @@ dotfiles/
 │   └── .vimrc            # Vim configuration
 ├── wezterm/
 │   └── .wezterm.lua      # WezTerm terminal config
-├── zsh/
-│   ├── .zshrc            # Main zsh config (sources zsh-config/*.zsh)
-│   └── .zprofile         # Zsh profile
-└── zsh-config/           # Modular zsh configs (NOT stowed)
-    ├── 01_path.zsh       # PATH configuration
-    ├── 02_alias.zsh      # Shell aliases
-    ├── 02_autocompletion.zsh
-    ├── 02_prompt.zsh     # Prompt setup
-    ├── 03_docker.zsh     # Docker-specific config
-    ├── 03_fzf.zsh        # FZF fuzzy finder config
-    ├── 03_node.zsh       # Node.js setup (fnm)
-    └── 03_rust.zsh       # Rust toolchain config
+└── zsh/
+    ├── .zshrc            # Main zsh config (sources ~/.config/zsh/*.zsh)
+    ├── .zprofile         # Zsh profile
+    └── .config/zsh/      # Modular zsh configs (stow-managed, XDG-compliant)
+        ├── 01_path.zsh       # PATH configuration
+        ├── 02_alias.zsh      # Shell aliases
+        ├── 02_autocompletion.zsh
+        ├── 02_prompt.zsh     # Prompt setup
+        ├── 03_docker.zsh     # Docker-specific config
+        ├── 03_fzf.zsh        # FZF fuzzy finder config
+        ├── 03_node.zsh       # Node.js setup (fnm)
+        ├── 03_rust.zsh       # Rust toolchain config
+        └── local/            # Machine-local secrets (gitignored)
+            └── secret_*.zsh  # Never committed
 ```
 
 **Key Conventions:**
 - Each tool has its own directory at repo root
 - Stow expects the same structure as $HOME (e.g., `zsh/.zshrc` → `~/.zshrc`)
 - Files starting with `.` are dotfiles that get symlinked
-- `zsh-config/` is separate and sourced by `.zshrc` (not managed by stow)
-- Numbered prefixes in `zsh-config/` control load order
+- Zsh configs live in `zsh/.config/zsh/` (XDG-compliant, stow-managed → `~/.config/zsh/`)
+- Numbered prefixes in `zsh/.config/zsh/` control load order
+- Machine-local secrets go in `zsh/.config/zsh/local/` (gitignored)
+- Machine-specific git config goes in `~/.gitconfig.local` (gitignored via `*.local`)
 
 ## AI Agent Guidelines
 
@@ -196,7 +201,9 @@ dotfiles/
 ### Dependencies Between Configs
 
 **Critical dependencies:**
-- `zsh/.zshrc` sources `~/zsh-config/*.zsh` (absolute path dependency)
+- `git/.gitconfig` uses `[include] path = ~/.gitconfig.local` for personal info (name, email, signingkey)
+- `~/.gitconfig.local` is created by `setup.sh` on first run (not in git, `*.local` is gitignored)
+- `zsh/.zshrc` sources `~/.config/zsh/*.zsh` and `~/.config/zsh/local/*.zsh`
 - FZF config requires `brew install fzf`
 - Starship prompt requires `brew install starship` + init in `.zshrc`
 - Powerlevel10k is in Brewfile but may conflict with starship
@@ -206,7 +213,8 @@ dotfiles/
 
 **Zsh plugin chain:**
 ```
-.zshrc → sources zsh-config/*.zsh (numbered load order)
+.zshrc → sources ~/.config/zsh/*.zsh (numbered load order)
+      → sources ~/.config/zsh/local/*.zsh (secrets)
       → loads zsh-autosuggestions (brew)
       → loads zsh-syntax-highlighting (brew)
       → initializes starship prompt
@@ -286,13 +294,13 @@ brew bundle cleanup --file ./brew/.Brewfile
 
 ```bash
 # For PATH changes
-vim zsh-config/01_path.zsh
+vim zsh/.config/zsh/01_path.zsh
 
 # For aliases
-vim zsh-config/02_alias.zsh
+vim zsh/.config/zsh/02_alias.zsh
 
 # For tool-specific config (e.g., docker, fzf, node)
-vim zsh-config/03_<toolname>.zsh
+vim zsh/.config/zsh/03_<toolname>.zsh
 
 # Test
 source ~/.zshrc
@@ -304,10 +312,10 @@ source ~/.zshrc
 - **DON'T commit secrets** - Check for API keys, tokens in configs
 - **DON'T hardcode paths** - Use `$HOME`, `$(brew --prefix)`, relative paths
 - **DON'T break idempotency** - `setup.sh` must be safe to run multiple times
-- **PRESERVE user-specific files** - `zsh-config/secret_*.zsh` should stay local
+- **PRESERVE user-specific files** - `zsh/.config/zsh/local/` is for machine-local secrets
 - **VERIFY stow structure** - Files must mirror $HOME layout exactly
 - **TEST before commit** - Use `stow -n` to verify changes won't break symlinks
-- **RESPECT load order** - Numbered prefixes in `zsh-config/` are significant
+- **RESPECT load order** - Numbered prefixes in `zsh/.config/zsh/` are significant
 
 ## Quick Reference
 
