@@ -139,7 +139,7 @@ instance_eval(File.read("#{__dir__}/.Brewfile.vscode"))
 ```
 
 Add dependency verification script `scripts/verify-deps.sh`:
-```zsh
+```sh
 #!/usr/bin/env zsh
 # Verify all expected binaries exist
 set -euo pipefail
@@ -186,7 +186,7 @@ echo "✅ All dependencies present"
 **Impact:** High | Complexity: High | Risk: Medium
 
 **Enhanced setup.sh:**
-```zsh
+```sh
 #!/usr/bin/env zsh
 # setup.sh - Idempotent dotfiles installation
 # Usage: ./setup.sh [--force] [--skip-brew]

@@ -3,6 +3,9 @@ return {
     "catppuccin/nvim",
     opts = {
       transparent_background = true,
+      integrations = {
+        render_markdown = true,
+      },
     },
   },
   {
@@ -12,11 +15,41 @@ return {
     },
   },
   {
+    "MeanderingProgrammer/render-markdown.nvim",
+    opts = {
+      code = {
+        style = "full",
+        border = "thin",
+      },
+    },
+  },
+  {
     "folke/snacks.nvim",
     opts = {
       picker = {
         sources = {
           files = { hidden = true },
+        },
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        json = { "prettier" },
+        jsonc = { "prettier" },
+        css = { "prettier" },
+        html = { "prettier" },
+        markdown = { "prettier" },
+      },
+      formatters = {
+        prettier = {
+          require_cwd = true,
         },
       },
     },
