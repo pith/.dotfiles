@@ -5,6 +5,7 @@
 
 # initialize autocompletion
 autoload -U compinit && compinit
+autoload bashcompinit && bashcompinit
 
 # history setup
 HISTFILE=$HOME/.zhistory
