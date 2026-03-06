@@ -1,0 +1,3 @@
+# Core: required by setup.sh bootstrap
+brew "mas"   # Mac App Store CLI — must load before any mas() calls
+brew "stow"  # Required by setup.sh to create symlinks

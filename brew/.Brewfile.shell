@@ -1,0 +1,14 @@
+# Shell tools and prompt
+brew "starship"                      # Minimal, fast, customizable prompt
+brew "bat"                           # cat with syntax highlighting
+brew "eza"                           # Modern replacement for ls
+brew "fd"                            # Fast alternative to find
+brew "fzf"                           # Fuzzy finder
+brew "ripgrep"                       # Fast grep alternative
+brew "tlrc"                          # tldr pages client
+brew "zoxide"                        # Smarter cd command
+
+# Zsh plugins
+brew "zsh-autosuggestions"           # Fish-like autosuggestions
+brew "zsh-history-substring-search"  # Fish-like history search
+brew "zsh-syntax-highlighting"       # Fish-like syntax highlighting

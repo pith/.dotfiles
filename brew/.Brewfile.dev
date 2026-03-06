@@ -1,0 +1,12 @@
+# Development tools
+brew "gh"          # GitHub CLI
+brew "git-delta"   # Syntax-highlighting pager for git/diff
+brew "jq"          # JSON processor
+brew "neovim"      # Text editor
+brew "lazygit"     # Terminal UI for git
+brew "tree-sitter" # Parser generator (neovim dependency)
+brew "fnm"         # Fast Node.js version manager
+brew "k9s"         # Kubernetes cluster manager TUI
+brew "kubernetes-cli" # kubectl
+brew "kubectx"     # Switch kubectl contexts easily
+brew "webp"        # WebP image format tools
