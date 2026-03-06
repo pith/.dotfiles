@@ -92,7 +92,7 @@ setup_git_config() {
         echo "Setting up git config..."
         read -p "Enter your name: " git_name
         read -p "Enter your email: " git_email
-        
+
         cat > "$HOME/.gitconfig.local" << EOF
 [user]
     name = $git_name
@@ -166,7 +166,7 @@ check_bins() {
             missing+=("$bin")
         fi
     done
-    
+
     if [ ${#missing[@]} -gt 0 ]; then
         echo "❌ Missing binaries: ${missing[*]}" >&2
         return 1
@@ -220,10 +220,10 @@ install_homebrew() {
         log_info "Homebrew already installed at $(which brew)"
         return 0
     fi
-    
+
     log_info "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    
+
     # Add to PATH for Apple Silicon
     if [[ -f "/opt/homebrew/bin/brew" ]]; then
         eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -235,14 +235,14 @@ install_dependencies() {
         log_warn "Skipping Homebrew dependencies (--skip-brew)"
         return 0
     fi
-    
+
     local brewfile="./brew/.Brewfile"
-    
+
     if [[ ! -f "$brewfile" ]]; then
         log_error "Brewfile not found at $brewfile"
         return 1
     fi
-    
+
     log_info "Installing dependencies from Brewfile..."
     brew bundle check --file="$brewfile" || \
         brew bundle install --file="$brewfile"
@@ -250,13 +250,13 @@ install_dependencies() {
 # Function: Setup dotfiles with stow
 setup_dotfiles() {
     local packages=(aerospace brew git nvim starship vim wezterm zsh)
-    
+
     log_info "Setting up dotfiles with GNU stow..."
-    
+
     # Check for conflicts
     if ! stow -n -v "${packages[@]}" 2>&1; then
         log_warn "Stow conflicts detected!"
-        
+
         if [[ "$FORCE_INSTALL" == "true" ]]; then
             log_warn "Force restowing (--force)..."
             stow -R -v "${packages[@]}"
@@ -271,7 +271,7 @@ setup_dotfiles() {
 # Function: Verify installation
 verify_installation() {
     log_info "Verifying installation..."
-    
+
     if [[ -f "./scripts/verify-deps.sh" ]]; then
         ./scripts/verify-deps.sh
     else
@@ -281,13 +281,13 @@ verify_installation() {
 # Main execution
 main() {
     log_info "Starting dotfiles setup..."
-    
+
     install_homebrew
     install_dependencies
     setup_dotfiles
     setup_git_config  # From Phase 2
     verify_installation
-    
+
     log_info "✅ Setup complete!"
     log_info "Restart your terminal or run: exec zsh -l"
 }
@@ -333,18 +333,18 @@ fi
 bba() {
     local package="$1"
     local brewfile="$HOME/.Brewfile"
-    
+
     # Validate inputs
     if [[ -z "${package:-}" ]]; then
         echo "Usage: bba <package_name>" >&2
         return 1
     fi
-    
+
     if [[ ! -f "$brewfile" ]]; then
         echo "Error: Brewfile not found at $brewfile" >&2
         return 1
     fi
-    
+
     # Add and install
     if brew bundle add --describe --file="$brewfile" "$package"; then
         brew bundle install --file="$brewfile"
@@ -402,7 +402,7 @@ repos:
     hooks:
       - id: shellcheck
         args: ['--shell=bash', '--exclude=SC1090,SC1091']
-        
+
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.7.0-1
     hooks:
@@ -424,7 +424,7 @@ repos:
       - id: detect-private-key
         exclude: '\.pub$'
       - id: check-case-conflict
-      
+
   # Prevent commits with secrets
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
@@ -439,7 +439,7 @@ repos:
         entry: ./scripts/verify-deps.sh
         language: script
         pass_filenames: false
-```  
+```
 
 Install hooks:
 ```sh
@@ -467,61 +467,61 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run shellcheck
         uses: ludeeus/action-shellcheck@master
         with:
           severity: warning
-          
+
   shfmt:
     name: Shell Formatting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install shfmt
         run: |
           wget -O /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/latest/download/shfmt_v3.7.0_linux_amd64
           chmod +x /usr/local/bin/shfmt
-          
+
       - name: Check formatting
         run: shfmt -i 2 -ci -d .
-        
+
   lua-style:
     name: Lua Formatting (Neovim/WezTerm)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Stylua Check
         uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --check .
-          
+
   brewfile:
     name: Validate Brewfile
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Validate Brewfile syntax
         run: |
           brew bundle check --file=./brew/.Brewfile || true
-          
+
   integration:
     name: Integration Test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Test setup script (dry run)
         run: |
           # Mock brew install
           export SKIP_BREW=true
           ./setup.sh --skip-brew || true
-          
+
       - name: Test stow (dry run)
         run: |
           brew install stow
@@ -648,7 +648,7 @@ set -euo pipefail
 if ! xcode-select -p &>/dev/null; then
     echo "Installing Xcode Command Line Tools..."
     xcode-select --install
-    
+
     # Wait for installation
     until xcode-select -p &>/dev/null; do
         sleep 5
@@ -854,14 +854,14 @@ State-of-the-Art Dotfiles Patterns
    - Shell safety with shellcheck
 
 Anti-Patterns to Avoid (found in current repo)
-❌ Hardcoded paths - Use $(brew --prefix), $HOME, ${0:a:h}  
-❌ Unguarded sourcing - Check file exists before source  
-❌ PATH pollution - Deduplicate on every reload  
-❌ Personal info in repo - Use templates  
-❌ Non-idempotent scripts - Check state before modify  
-❌ Conflicting tools - Remove powerlevel10k if using starship  
-❌ Silent failures - Add verbose error handling  
-❌ No validation - Add pre-commit + CI  
+❌ Hardcoded paths - Use $(brew --prefix), $HOME, ${0:a:h}
+❌ Unguarded sourcing - Check file exists before source
+❌ PATH pollution - Deduplicate on every reload
+❌ Personal info in repo - Use templates
+❌ Non-idempotent scripts - Check state before modify
+❌ Conflicting tools - Remove powerlevel10k if using starship
+❌ Silent failures - Add verbose error handling
+❌ No validation - Add pre-commit + CI
 ---
 
 ## 🔧 Code Quality Improvements Summary
@@ -900,4 +900,3 @@ Before I create implementation PRs:
 4. Company laptop: Is this for personal + work? (affects secrets strategy) – I have both a personal and company laptop
 5. Priority phases: Want to tackle specific phases first or follow the 4-week plan? - Follow the plan
 ---
-

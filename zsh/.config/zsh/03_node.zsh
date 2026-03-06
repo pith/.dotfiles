@@ -6,7 +6,7 @@
 # nvm use --lts
 
 ## FNM config
-# 
+#
 # Fast Node Manager (fnm) is a simple and fast Node.js version manager.
 # See: https://github.com/Schniz/fnm
 #

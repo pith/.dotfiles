@@ -175,7 +175,7 @@ dotfiles/
    ```bash
    # Check current symlinks
    ls -la ~/ | grep "dotfiles"
-   
+
    # Verify stow structure
    stow -n -v <package_name>  # Dry run
    ```
@@ -184,7 +184,7 @@ dotfiles/
    ```bash
    # Re-stow if directory structure changed
    stow -R <package_name>
-   
+
    # Test in new shell session
    zsh -l  # For shell configs
    ```
