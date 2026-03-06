@@ -91,6 +91,11 @@ setup_dotfiles() {
 
   # Ensure machine-local secrets directory exists (gitignored, never stowed)
   mkdir -p "$HOME/.config/zsh/local"
+
+  if command -v pre-commit &>/dev/null; then
+    log_info "Installing pre-commit hooks..."
+    (cd "$DOTFILES_DIR" && pre-commit install)
+  fi
 }
 
 setup_git_config() {

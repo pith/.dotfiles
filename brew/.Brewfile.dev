@@ -10,3 +10,5 @@ brew "k9s"         # Kubernetes cluster manager TUI
 brew "kubernetes-cli" # kubectl
 brew "kubectx"     # Switch kubectl contexts easily
 brew "webp"        # WebP image format tools
+brew "stylua"      # Lua formatter (mirrors Mason-managed version in Neovim)
+brew "pre-commit"  # Git hook manager
