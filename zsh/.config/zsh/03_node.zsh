@@ -10,4 +10,4 @@
 # Fast Node Manager (fnm) is a simple and fast Node.js version manager.
 # See: https://github.com/Schniz/fnm
 #
-eval "$(fnm env --use-on-cd --shell zsh)"
+command -v fnm &>/dev/null && eval "$(fnm env --use-on-cd --shell zsh)"

@@ -35,7 +35,7 @@ alias vim="nvim"
 # Install packages with Homebrew
 bba() {
   local package="$1"
-  local brewfile=~/.Brewfile
+  local brewfile="$HOME/.Brewfile"
 
   # Check if the package name exists
   if [[ -z "$package" ]]; then
