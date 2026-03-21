@@ -12,3 +12,4 @@ brew "kubectx"     # Switch kubectl contexts easily
 brew "webp"        # WebP image format tools
 brew "stylua"      # Lua formatter (mirrors Mason-managed version in Neovim)
 brew "pre-commit"  # Git hook manager
+brew "tmux"
