@@ -41,7 +41,7 @@ return {
           settings = {
             typescript = {
               tsserver = {
-                maxTsServerMemory = 8192,
+                maxTsServerMemory = 12288,
               },
             },
           },
@@ -65,8 +65,18 @@ return {
         markdown = { "prettier" },
       },
       formatters = {
+        -- Prettier 4.x (used in this monorepo) dropped --stdin-filepath and all stdin support.
+        -- Conform's built-in prettier formatter relies on stdin piping, which no longer works.
+        -- Override to use --write on the actual file path instead.
         prettier = {
           require_cwd = true,
+          stdin = false,
+          args = { "--write", "$FILENAME" },
+          -- Skip package.json: Prettier sorts its fields into a canonical order, which
+          -- conflicts with intentional field ordering in package.json files.
+          condition = function(self, ctx)
+            return vim.fs.basename(ctx.filename) ~= "package.json"
+          end,
         },
       },
     },
