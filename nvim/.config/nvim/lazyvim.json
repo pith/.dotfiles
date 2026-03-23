@@ -1,8 +1,8 @@
 {
   "extras": [
-   "lazyvim.plugins.extras.lang.typescript",
-   "lazyvim.plugins.extras.linting.eslint",
-   "lazyvim.plugins.extras.lang.bash"
+    "lazyvim.plugins.extras.ai.copilot",
+    "lazyvim.plugins.extras.lang.typescript",
+    "lazyvim.plugins.extras.linting.eslint"
   ],
   "install_version": 8,
   "news": {
