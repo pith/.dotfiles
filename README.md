@@ -7,6 +7,7 @@ Personal macOS dotfiles managed with [GNU Stow](https://www.gnu.org/software/sto
 ```sh
 git clone git@github.com:pith/.dotfiles.git ~/dotfiles
 cd ~/dotfiles
+git submodule update --init --recursive
 ./setup.sh
 ```
 
@@ -21,7 +22,8 @@ cd ~/dotfiles
 ```sh
 make install        # re-run setup.sh
 brew bundle --file brew/.Brewfile  # update packages only
-stow -R aerospace brew git nvim starship vim wezterm zsh  # re-apply symlinks only
+stow -R aerospace brew git nvim starship tmux vim wezterm zsh  # re-apply symlinks only
+~/.tmux/plugins/tpm/bin/install_plugins  # install/update TPM plugins
 ```
 
 ## Structure
@@ -34,10 +36,15 @@ stow -R aerospace brew git nvim starship vim wezterm zsh  # re-apply symlinks on
 | `nvim/`      | Neovim                            |
 | `starship/`  | Starship prompt                   |
 | `vim/`       | Vim                               |
+| `tmux/`      | Tmux + TPM + Catppuccin theme     |
 | `wezterm/`   | WezTerm terminal                  |
 | `zsh/`       | Zsh shell + XDG-compliant configs |
 
 Zsh configs in `zsh/.config/zsh/` use numbered prefixes for load order (`01_path.zsh`, `02_alias.zsh`, etc.).
+
+Tmux plugins are managed via two mechanisms:
+- **Git submodules** — [TPM](https://github.com/tmux-plugins/tpm) (`tmux/.tmux/plugins/tpm`) and the [Catppuccin theme](https://github.com/catppuccin/tmux) (`tmux/.config/tmux/plugins/catppuccin/tmux`)
+- **TPM** — remaining plugins (`tmux-sensible`, `vim-tmux-navigator`) installed at runtime via `~/.tmux/plugins/tpm/bin/install_plugins`
 
 ## Customization
 

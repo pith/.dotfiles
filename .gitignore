@@ -15,3 +15,7 @@ debug
 foo.*
 *.log
 data
+
+# TPM - plugins installed at runtime, not committed (except tpm itself)
+tmux/.tmux/plugins/*/
+!tmux/.tmux/plugins/tpm
