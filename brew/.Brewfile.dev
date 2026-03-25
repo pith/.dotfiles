@@ -5,11 +5,9 @@ brew "jq"          # JSON processor
 brew "neovim"      # Text editor
 brew "lazygit"     # Terminal UI for git
 brew "tree-sitter" # Parser generator (neovim dependency)
-brew "fnm"         # Fast Node.js version manager
 brew "k9s"         # Kubernetes cluster manager TUI
-brew "kubernetes-cli" # kubectl
-brew "kubectx"     # Switch kubectl contexts easily
 brew "webp"        # WebP image format tools
 brew "stylua"      # Lua formatter (mirrors Mason-managed version in Neovim)
+brew "gnupg"       # GPG for signature verification (e.g., mise)
 brew "pre-commit"  # Git hook manager
 brew "tmux"

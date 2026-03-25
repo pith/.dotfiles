@@ -1,5 +1,13 @@
 return {
   {
+    -- copilot.lua runs node outside the shell, so it doesn't inherit the PATH
+    -- that mise sets up. Point it at the mise-managed node binary directly.
+    "zbirenbaum/copilot.lua",
+    opts = {
+      copilot_node_command = vim.fn.expand("~/.local/share/mise/installs/node/lts/bin/node"),
+    },
+  },
+  {
     "catppuccin/nvim",
     opts = {
       transparent_background = true,
