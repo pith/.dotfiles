@@ -3,6 +3,7 @@ tap "nikitabobko/tap"
 
 cask "wezterm"               # GPU-accelerated terminal emulator
 cask "font-meslo-lg-nerd-font" # Nerd Font for terminal icons
+cask "font-jetbrains-mono-nerd-font" # Nerd Font for terminal icons
 
 # AeroSpace tiling window manager (uncomment to install)
 # cask "aerospace"
