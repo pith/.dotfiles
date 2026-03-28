@@ -4,7 +4,7 @@ AI agent instructions for working with this dotfiles repository.
 
 ## Repository Overview
 
-This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, nvim, vim, wezterm (terminal), zsh (shell), and starship (prompt). The primary setup mechanism is `setup.sh`, which installs Homebrew, installs dependencies from `.Brewfile`, and creates symlinks via stow.
+This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, nvim, sesh (tmux session manager), vim, wezterm (terminal), zsh (shell), starship (prompt), and tmux. The primary setup mechanism is `setup.sh`, which installs Homebrew, installs dependencies from `.Brewfile`, and creates symlinks via stow.
 
 ## Build, Lint, and Test Commands
 
@@ -106,7 +106,7 @@ local settings = {
 return settings
 ```
 
-### TOML (AeroSpace, Starship)
+### TOML (AeroSpace, Starship, Sesh)
 
 - Use kebab-case for keys: `start-at-login`
 - Inline comments after values for clarification
@@ -136,6 +136,8 @@ dotfiles/
 │   └── .gitignore_global       # Global git ignore patterns
 ├── nvim/
 │   └── .config/nvim/     # Neovim configuration
+├── sesh/
+│   └── .config/sesh/     # Sesh tmux session manager config
 ├── starship/
 │   └── .config/starship/ # Starship prompt config
 ├── vim/
@@ -210,6 +212,7 @@ dotfiles/
 - Git delta requires `brew install git-delta` + config in `.gitconfig`
 - Node tools require `fnm` (in Brewfile)
 - Rust tools require rust toolchain (configured in `03_rust.zsh`)
+- Sesh requires `brew install sesh` + fzf + tmux; configured in `sesh/.config/sesh/sesh.toml`, keybinding in `tmux.conf`
 
 **Zsh plugin chain:**
 ```
@@ -253,8 +256,8 @@ mkdir -p newtool/.config/newtool
 cp -r ~/.config/newtool/* newtool/.config/newtool/
 
 # Add to setup.sh stow line
-# Before: stow aerospace brew git nvim starship vim wezterm zsh
-# After:  stow aerospace brew git newtool nvim starship vim wezterm zsh
+# Before: stow aerospace brew git nvim ripgrep sesh starship tmux vim wezterm zsh
+# After:  stow aerospace brew git newtool nvim ripgrep sesh starship tmux vim wezterm zsh
 
 # Test
 stow -n -v newtool
@@ -327,7 +330,7 @@ source ~/.zshrc
 ./capture.sh <source_path> <config_name>
 
 # Re-apply all symlinks
-stow -R aerospace brew git nvim starship vim wezterm zsh
+stow -R aerospace brew git nvim ripgrep sesh starship tmux vim wezterm zsh
 
 # Remove symlinks
 stow -D <package_name>

@@ -6,6 +6,9 @@
 **/local/
 *.local
 
+# Sesh config should stay local
+sesh.toml
+
 # LazyVim
 tt.*
 .tests
