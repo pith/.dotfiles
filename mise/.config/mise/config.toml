@@ -1,3 +1,7 @@
 [tools]
 node = "lts"
 python = "latest"
+
+[settings]
+# Respect .nvmrc and .node-version files for project compatibility
+idiomatic_version_file_enable_tools = ["node"]

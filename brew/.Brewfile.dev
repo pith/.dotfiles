@@ -9,5 +9,6 @@ brew "k9s"         # Kubernetes cluster manager TUI
 brew "webp"        # WebP image format tools
 brew "stylua"      # Lua formatter (mirrors Mason-managed version in Neovim)
 brew "gnupg"       # GPG for signature verification (e.g., mise)
+brew "mise"        # Polyglot tool version manager (node, python, etc.)
 brew "pre-commit"  # Git hook manager
 brew "tmux"

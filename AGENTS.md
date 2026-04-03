@@ -4,7 +4,7 @@ AI agent instructions for working with this dotfiles repository.
 
 ## Repository Overview
 
-This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, nvim, sesh (tmux session manager), vim, wezterm (terminal), zsh (shell), starship (prompt), and tmux. The primary setup mechanism is `setup.sh`, which installs Homebrew, installs dependencies from `.Brewfile`, and creates symlinks via stow.
+This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, mise (tool version manager), nvim, sesh (tmux session manager), vim, wezterm (terminal), zsh (shell), starship (prompt), and tmux. The primary setup mechanism is `setup.sh`, which installs Homebrew, installs dependencies from `.Brewfile`, and creates symlinks via stow.
 
 ## Build, Lint, and Test Commands
 
@@ -134,6 +134,10 @@ dotfiles/
 │   ├── .gitconfig              # Git configuration (shared, no personal info)
 │   ├── .gitconfig.local.example # Template for machine-specific [user] section
 │   └── .gitignore_global       # Global git ignore patterns
+├── mise/
+│   └── .config/mise/
+│       ├── config.toml             # Global tool versions + settings (node=lts, idiomatic files)
+│       └── default-npm-packages    # Auto-installed npm globals on each node install
 ├── nvim/
 │   └── .config/nvim/     # Neovim configuration
 ├── sesh/
@@ -154,7 +158,7 @@ dotfiles/
         ├── 02_prompt.zsh     # Prompt setup
         ├── 03_docker.zsh     # Docker-specific config
         ├── 03_fzf.zsh        # FZF fuzzy finder config
-        ├── 03_node.zsh       # Node.js setup (fnm)
+        ├── 03_mise.zsh       # mise activation (node, python, etc.)
         ├── 03_rust.zsh       # Rust toolchain config
         └── local/            # Machine-local secrets (gitignored)
             └── secret_*.zsh  # Never committed
@@ -210,7 +214,7 @@ dotfiles/
 - Starship prompt requires `brew install starship` + init in `.zshrc`
 - Powerlevel10k is in Brewfile but may conflict with starship
 - Git delta requires `brew install git-delta` + config in `.gitconfig`
-- Node tools require `fnm` (in Brewfile)
+- Node (and other tools) managed by `mise` (in Brewfile.dev); activated via `03_mise.zsh` (interactive) and `.zprofile` (non-interactive/shims); global config at `mise/.config/mise/config.toml`; default npm packages at `mise/.config/mise/default-npm-packages`
 - Rust tools require rust toolchain (configured in `03_rust.zsh`)
 - Sesh requires `brew install sesh` + fzf + tmux; configured in `sesh/.config/sesh/sesh.toml`, keybinding in `tmux.conf`
 
