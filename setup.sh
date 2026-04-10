@@ -71,7 +71,7 @@ install_dependencies() {
 }
 
 setup_dotfiles() {
-  local -a packages=(aerospace brew git mise nvim ripgrep sesh starship tmux vim wezterm yazi zsh)
+  local -a packages=(aerospace bat brew eza git mise nvim ripgrep sesh starship tmux vim wezterm yazi zsh)
 
   log_info "Setting up dotfiles with GNU stow..."
 
