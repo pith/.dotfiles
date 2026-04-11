@@ -1,0 +1,9 @@
+[plugin]
+# Disable graphical image preview (Kitty/Sixel/Überzug).
+# WezTerm's env vars propagate into neovim's terminal, causing yazi to attempt
+# Kitty/Sixel protocols that neovim's terminal emulator (libvterm) can't handle.
+# Those escape sequences leak as keypresses — triggering rename ('r').
+# This config is only active when $YAZI_CONFIG_HOME points here (set in neovim).
+prepend_previewers = [
+  { mime = "image/*", run = "noop" },
+]
