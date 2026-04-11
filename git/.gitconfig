@@ -11,6 +11,35 @@
 
 [delta]
 	navigate = true # use n and N to move between diff section
+	features = catppuccin-mocha
+
+[delta "catppuccin-mocha"]
+	blame-palette = "#1e1e2e #181825 #313244 #45475a #585b70"
+	commit-decoration-style = "box ul"
+	dark = true
+	file-decoration-style = "#cdd6f4"
+	file-style = "#cdd6f4"
+	hunk-header-decoration-style = "box ul"
+	hunk-header-file-style = "bold"
+	hunk-header-line-number-style = "bold #a6adc8"
+	hunk-header-style = "file line-number syntax"
+	line-numbers = true
+	line-numbers-left-style = "#6c7086"
+	line-numbers-minus-style = "bold #f38ba8"
+	line-numbers-plus-style = "bold #a6e3a1"
+	line-numbers-right-style = "#6c7086"
+	line-numbers-zero-style = "#6c7086"
+	minus-emph-style = "bold syntax #53354a"
+	minus-style = "syntax #2d1b2e"
+	plus-emph-style = "bold syntax #2b4a3f"
+	plus-style = "syntax #1c3a2d"
+	map-styles = \
+		bold purple => syntax "#553b6e", \
+		bold blue => syntax "#2a3f6f", \
+		bold cyan => syntax "#1e4d58", \
+		bold yellow => syntax "#4d4020"
+	syntax-theme = "Catppuccin Mocha"
+	zero-style = "syntax"
 
 [color]
 	ui = auto
@@ -37,9 +66,9 @@
 	smudge = git-media-smudge %f
 [push]
 	default = matching
-[gpg]
-	format = ssh
-[commit]
-	gpgsign = true
+; [gpg]
+; 	format = ssh
+; [commit]
+; 	gpgsign = true
 [init]
 	defaultBranch = main

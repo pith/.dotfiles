@@ -173,6 +173,44 @@ dotfiles/
 - Machine-local secrets go in `zsh/.config/zsh/local/` (gitignored)
 - Machine-specific git config goes in `~/.gitconfig.local` (gitignored via `*.local`)
 
+## Theme
+
+**All tools use Catppuccin Mocha.** When adding a new tool config, always check https://github.com/catppuccin/catppuccin for an official port and apply it before committing.
+
+### Current theme status
+
+| Tool | Status |
+|------|--------|
+| Neovim | ✅ catppuccin/nvim, `catppuccin-mocha`, transparent background |
+| WezTerm | ✅ `color_scheme = "Catppuccin Mocha"` |
+| Tmux | ✅ catppuccin/tmux plugin, `flavor = "mocha"` |
+| Starship | ✅ `palette = "catppuccin_mocha"` |
+| Bat | ✅ `--theme="Catppuccin Mocha"` + theme files in `bat/.config/bat/themes/` |
+| Eza | ✅ hex colors in `eza/.config/eza/theme.yml` |
+| Yazi | ✅ `theme.toml` + `Catppuccin-mocha.tmTheme` |
+| Delta | ✅ `features = catppuccin-mocha` block in `git/.gitconfig` |
+| Lazygit | ✅ `gui.theme` in `lazygit/.config/lazygit/config.yml` |
+| Fzf | ✅ `FZF_DEFAULT_OPTS` colors in `zsh/.config/zsh/03_fzf.zsh` |
+| zsh-syntax-highlighting | ✅ `ZSH_HIGHLIGHT_STYLES` in `zsh/.config/zsh/02_autocompletion.zsh` |
+
+### Adding a theme to a new tool
+
+1. Check https://github.com/catppuccin/catppuccin — search for the tool name
+2. If a port exists, apply the **Mocha** flavor
+3. If no port exists, use the Mocha palette directly:
+
+```
+base      #1e1e2e    surface0  #313244    overlay1  #7f849c
+mantle    #181825    surface1  #45475a    overlay2  #9399b2
+crust     #11111b    surface2  #585b70    subtext0  #a6adc8
+                     overlay0  #6c7086    subtext1  #bac2de
+text      #cdd6f4    blue      #89b4fa    green     #a6e3a1
+lavender  #b4befe    sapphire  #74c7ec    teal      #94e2d5
+mauve     #cba6f7    sky       #89dceb    yellow    #f9e2af
+pink      #f38ba8    peach     #fab387    red       #f38ba8
+flamingo  #f2cdcd    maroon    #eba0ac    rosewater #f5e0dc
+```
+
 ## AI Agent Guidelines
 
 ### Safe Modification Strategy
@@ -334,7 +372,7 @@ source ~/.zshrc
 ./capture.sh <source_path> <config_name>
 
 # Re-apply all symlinks
-stow -R aerospace brew git nvim ripgrep sesh starship tmux vim wezterm zsh
+stow -R aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux vim wezterm yazi zsh
 
 # Remove symlinks
 stow -D <package_name>
