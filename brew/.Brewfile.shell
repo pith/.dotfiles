@@ -9,6 +9,7 @@ brew "tlrc"                          # tldr pages client
 brew "zoxide"                        # Smarter cd command
 brew "sesh"                          # Tmux session manager with fzf
 brew "yazi"                          # Blazing Fast Terminal File Manager
+brew "chafa"                         # Image-to-text renderer (yazi image preview)
 
 # Zsh plugins
 brew "zsh-autosuggestions"           # Fish-like autosuggestions
