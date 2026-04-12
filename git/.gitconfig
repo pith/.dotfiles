@@ -83,14 +83,45 @@
 	prune = true
 	pruneTags = true
 
+[receive]
+	# Completes the fsck triangle: transfer (all ops) + fetch (incoming) + receive (push target).
+	# Relevant when pushing to a local bare repo or self-hosted remote (Gitea, etc.).
+	# GitHub enforces its own fsck server-side, but this is correct defense-in-depth.
+	fsckObjects = true
+
 [merge]
 	tool = vimdiff
+	# Show common ancestor in conflict markers (requires Git ≥ 2.35)
+	# <<<<<<< HEAD / ||||||| base / ======= / >>>>>>> branch
+	# The base section shows what the code looked like before both sides diverged,
+	# making it possible to reason about intent rather than just picking a side.
+	conflictstyle = zdiff3
 
 [commit]
 	verbose = true
 
 [help]
 	autocorrect = prompt
+
+[rebase]
+	# Auto-apply fixup!/squash! commits during rebase — pairs with Lazygit's
+	# "create fixup commit" (ctrl-f). No more manual reordering in the todo list.
+	autoSquash = true
+	# Stash dirty worktree before rebase, restore after. Eliminates the
+	# "cannot rebase: you have unstaged changes" interruption.
+	autostash = true
+	# When rebasing a branch, also update any branches stacked on top of it.
+	# Essential for stacked PRs — prevents downstream branches from breaking.
+	# Requires Git ≥ 2.38.
+	updateRefs = true
+
+[rerere]
+	# Remember how merge conflicts were resolved and replay the resolution
+	# automatically if the same conflict appears again (e.g. on repeated rebases).
+	enabled = true
+	# Stage rerere-resolved files automatically — no manual `git add` needed
+	# before `git rebase --continue`.
+	autoupdate = true
 
 [transfer]
 	fsckObjects = true
