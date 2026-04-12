@@ -70,5 +70,9 @@
 ; 	format = ssh
 ; [commit]
 ; 	gpgsign = true
+[transfer]
+	fsckObjects = true
+[fetch]
+	fsckObjects = true
 [init]
 	defaultBranch = main
