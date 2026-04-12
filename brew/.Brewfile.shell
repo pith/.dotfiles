@@ -10,6 +10,11 @@ brew "zoxide"                        # Smarter cd command
 brew "sesh"                          # Tmux session manager with fzf
 brew "yazi"                          # Blazing Fast Terminal File Manager
 brew "chafa"                         # Image-to-text renderer (yazi image preview)
+brew "ffmpeg-full"                   # Video thumbnails in yazi (keg-only, needs force-link)
+brew "sevenzip"                      # Archive extraction and preview in yazi
+brew "poppler"                       # PDF preview in yazi
+brew "resvg"                         # SVG preview in yazi
+brew "imagemagick-full"              # Font/HEIC/JPEG XL preview in yazi + image.nvim (keg-only, needs force-link)
 
 # Zsh plugins
 brew "zsh-autosuggestions"           # Fish-like autosuggestions

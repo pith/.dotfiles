@@ -68,6 +68,10 @@ install_dependencies() {
   # Only run install if something is missing — avoids slow full reinstall
   brew bundle check --file="$brewfile" 2>/dev/null \
     || brew bundle install --file="$brewfile"
+
+  # ffmpeg-full and imagemagick-full are keg-only (conflict with non-full variants);
+  # force-link them so their binaries are available on PATH.
+  brew link ffmpeg-full imagemagick-full -f --overwrite 2>/dev/null || true
 }
 
 setup_dotfiles() {
