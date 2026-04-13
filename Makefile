@@ -1,13 +1,13 @@
-.PHONY: help install install-hooks lint format
+.PHONY: help bootstrap sync lint format
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "%-18s %s\n", $$1, $$2}'
 
-install: ## Install dotfiles (runs setup.sh)
-	./setup.sh
+bootstrap: ## Provision a new machine (run once)
+	./bootstrap.sh
 
-install-hooks: ## Install pre-commit hooks
-	pre-commit install
+sync: ## Pull latest and re-apply dotfiles
+	./sync.sh
 
 lint: ## Lint all files via pre-commit
 	pre-commit run --all-files
