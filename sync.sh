@@ -76,11 +76,12 @@ update_dependencies() {
   fi
 
   log_info "Updating dependencies from Brewfile..."
+  brew update
   # Non-fatal: mas (Mac App Store) installs require interactive auth and may
   # fail in a non-GUI session. Stow and TPM updates should still run.
-  brew bundle check --file="$brewfile" 2>/dev/null \
-    || brew bundle install --file="$brewfile" \
-    || log_warn "brew bundle encountered errors — some packages may be outdated"
+  brew bundle install --file="$brewfile" \
+    || log_warn "brew bundle errors — MAS apps may need interactive install"
+  brew upgrade
 
   # ffmpeg-full and imagemagick-full are keg-only (conflict with non-full variants);
   # force-link them so their binaries are available on PATH.
