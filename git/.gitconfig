@@ -62,13 +62,30 @@
 [alias]
 	st = status
 	ci = commit
+	# Legacy — kept for muscle memory. Prefer `sw` for branch switching.
 	co = checkout
+	# Modern, unambiguous replacements for `git checkout`
+	sw = switch
+	res = restore
+	# Current branch only
 	lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ar)%Creset'
-	pl = pull --ff-only
+	# All branches + remotes — useful when rebasing or checking divergence
+	lga = log --graph --all --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ar)%Creset'
 	po = !git push origin $(git branch --show-current)
-	yolo = !git push --force-with-lease origin $(git branch --show-current)
-	br = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+	# --force-with-lease: refuse if remote has unknown commits
+	# --force-if-includes: also verify fetched remote commits are in local history
+	yolo = !git push --force-with-lease --force-if-includes origin $(git branch --show-current)
+	# --sort flag removed: redundant with branch.sort = -committerdate in config
+	br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 	pr = !gh pr create --fill
+	# Undo last commit, keep all changes staged — nothing is lost
+	undo = reset --soft HEAD~1
+	# Create a fixup commit for a given SHA — pairs with rebase.autoSquash = true
+	# Usage: git fixup <sha>
+	fixup = !git commit --fixup
+	# List local branches whose remote tracking branch is gone (merged/deleted PRs)
+	# Pipe to `git branch -d $(git gone)` to bulk-delete them
+	gone = !git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}'
 
 [pull]
 	ff = only
