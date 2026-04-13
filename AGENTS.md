@@ -4,7 +4,7 @@ AI agent instructions for working with this dotfiles repository.
 
 ## Repository Overview
 
-This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, mise (tool version manager), nvim, sesh (tmux session manager), vim, wezterm (terminal), zsh (shell), starship (prompt), and tmux. The primary setup mechanism is `setup.sh`, which installs Homebrew, installs dependencies from `.Brewfile`, and creates symlinks via stow.
+This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, mise (tool version manager), nvim, sesh (tmux session manager), vim, wezterm (terminal), zsh (shell), starship (prompt), and tmux. Setup uses two scripts: `bootstrap.sh` (run once on a new machine — installs Homebrew, brew bundle, stow, git identity) and `sync.sh` (run after every git pull — pulls latest, updates brew packages, restows symlinks).
 
 ## Build, Lint, and Test Commands
 
@@ -14,10 +14,10 @@ This repository contains personal macOS dotfiles managed with GNU stow for autom
 
 ```bash
 # Lint shell scripts (if shellcheck installed)
-shellcheck setup.sh capture.sh zsh/.config/zsh/*.zsh
+shellcheck bootstrap.sh sync.sh capture.sh zsh/.config/zsh/*.zsh
 
 # Format shell scripts (if shfmt installed)
-shfmt -w -i 2 setup.sh capture.sh
+shfmt -w -i 2 bootstrap.sh sync.sh capture.sh
 
 # Format Lua files (Neovim configs)
 cd nvim/.config/nvim && stylua . --config-path stylua.toml
@@ -39,7 +39,7 @@ zsh -c 'source ~/.config/zsh/02_alias.zsh && alias'
 zsh -c 'source ~/.config/zsh/03_fzf.zsh && echo "Loaded successfully"'
 
 # Full integration test (use with caution)
-./setup.sh  # Only safe on fresh system or VM
+./bootstrap.sh  # Only safe on fresh system or VM
 
 # Validate TOML configs
 # AeroSpace: No CLI validator available, restart AeroSpace to test
@@ -124,7 +124,8 @@ return settings
 
 ```
 dotfiles/
-├── setup.sh              # Main setup script (installs brew + deps, runs stow)
+├── bootstrap.sh          # One-time provisioning (installs brew + deps, stow, git identity)
+├── sync.sh               # Ongoing sync: git pull, brew update, restow
 ├── capture.sh            # Utility to capture new dotfiles into stow structure
 ├── brew/
 │   └── .Brewfile         # Homebrew dependencies (formulae, casks, mas, vscode)
@@ -246,7 +247,7 @@ flamingo  #f2cdcd    maroon    #eba0ac    rosewater #f5e0dc
 
 **Critical dependencies:**
 - `git/.gitconfig` uses `[include] path = ~/.gitconfig.local` for personal info (name, email, signingkey)
-- `~/.gitconfig.local` is created by `setup.sh` on first run (not in git, `*.local` is gitignored)
+- `~/.gitconfig.local` is created by `bootstrap.sh` on first run (not in git, `*.local` is gitignored)
 - `zsh/.zshrc` sources `~/.config/zsh/*.zsh` and `~/.config/zsh/local/*.zsh`
 - FZF config requires `brew install fzf`
 - Starship prompt requires `brew install starship` + init in `.zshrc`
@@ -265,12 +266,15 @@ flamingo  #f2cdcd    maroon    #eba0ac    rosewater #f5e0dc
       → initializes starship prompt
 ```
 
-### When to Update setup.sh vs Individual Configs
+### When to Update bootstrap.sh / sync.sh vs Individual Configs
 
-**Update `setup.sh` when:**
-- Adding new tool directories to stow
-- Changing install order or dependencies
-- Modifying the bootstrap process
+**Update `bootstrap.sh` when:**
+- Changing one-time provisioning steps (Homebrew install, git identity prompt)
+- Adding new tool directories to the stow packages list
+
+**Update `sync.sh` when:**
+- Changing the pull-and-reconcile workflow
+- Adjusting how packages or symlinks are updated on sync
 
 **Update `brew/.Brewfile` when:**
 - Adding/removing packages, casks, or Mac App Store apps
@@ -297,9 +301,9 @@ flamingo  #f2cdcd    maroon    #eba0ac    rosewater #f5e0dc
 mkdir -p newtool/.config/newtool
 cp -r ~/.config/newtool/* newtool/.config/newtool/
 
-# Add to setup.sh stow line
-# Before: stow aerospace brew git nvim ripgrep sesh starship tmux vim wezterm zsh
-# After:  stow aerospace brew git newtool nvim ripgrep sesh starship tmux vim wezterm zsh
+# Add to the packages array in bootstrap.sh and sync.sh
+# Before: packages=(aerospace brew git nvim ripgrep sesh starship tmux vim wezterm zsh)
+# After:  packages=(aerospace brew git newtool nvim ripgrep sesh starship tmux vim wezterm zsh)
 
 # Test
 stow -n -v newtool
@@ -356,7 +360,7 @@ source ~/.zshrc
 - **DON'T break symlinks** - Never `mv` or `rm` files in $HOME; edit in repo
 - **DON'T commit secrets** - Check for API keys, tokens in configs
 - **DON'T hardcode paths** - Use `$HOME`, `$(brew --prefix)`, relative paths
-- **DON'T break idempotency** - `setup.sh` must be safe to run multiple times
+- **DON'T break idempotency** - `bootstrap.sh` and `sync.sh` must be safe to run multiple times
 - **PRESERVE user-specific files** - `zsh/.config/zsh/local/` is for machine-local secrets
 - **VERIFY stow structure** - Files must mirror $HOME layout exactly
 - **TEST before commit** - Use `stow -n` to verify changes won't break symlinks
@@ -365,8 +369,11 @@ source ~/.zshrc
 ## Quick Reference
 
 ```bash
-# Bootstrap new system
-./setup.sh
+# Bootstrap new system (run once)
+./bootstrap.sh
+
+# Sync with remote (run after git pull)
+./sync.sh
 
 # Capture existing dotfile
 ./capture.sh <source_path> <config_name>

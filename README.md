@@ -4,27 +4,35 @@ Personal macOS dotfiles managed with [GNU Stow](https://www.gnu.org/software/sto
 
 ## Bootstrap
 
+Run once on a fresh machine:
+
 ```sh
 git clone git@github.com:pith/.dotfiles.git ~/dotfiles
 cd ~/dotfiles
 git submodule update --init --recursive
-./setup.sh
+./bootstrap.sh
 ```
 
-`setup.sh` installs Homebrew, runs `brew bundle` from `brew/.Brewfile`, and symlinks all configs via stow.
+`bootstrap.sh` installs Homebrew, runs `brew bundle` from `brew/.Brewfile`, symlinks all configs via stow, and prompts for git identity (`~/.gitconfig.local`).
 
 **Flags:**
-- `--skip-brew` — skip Homebrew install and bundle (useful on re-runs)
+- `--skip-brew` — skip Homebrew install and bundle (useful when brew is already set up)
 - `--force` — overwrite conflicting files when stow detects conflicts
 
-## Update
+## Sync
+
+Keep dotfiles in sync with remote after pulling changes:
 
 ```sh
-make install        # re-run setup.sh
-brew bundle --file brew/.Brewfile  # update packages only
-stow -R aerospace brew git nvim starship tmux vim wezterm zsh  # re-apply symlinks only
-~/.tmux/plugins/tpm/bin/install_plugins  # install/update TPM plugins
+./sync.sh
+# or
+make sync
 ```
+
+`sync.sh` stashes any WIP, pulls with `--ff-only`, restores the stash, updates brew packages, and restows all symlinks. Safe to run non-interactively.
+
+**Flags:**
+- `--skip-brew` — skip Homebrew bundle update
 
 ## Structure
 
@@ -55,7 +63,6 @@ Tmux plugins are managed via two mechanisms:
 
 ```sh
 make lint           # run pre-commit hooks on all files
-make install-hooks  # install pre-commit hooks
 make format         # format Lua files with stylua
 ```
 
