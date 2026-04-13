@@ -9,11 +9,10 @@ Run once on a fresh machine:
 ```sh
 git clone git@github.com:pith/.dotfiles.git ~/dotfiles
 cd ~/dotfiles
-git submodule update --init --recursive
 ./bootstrap.sh
 ```
 
-`bootstrap.sh` installs Homebrew, runs `brew bundle` from `brew/.Brewfile`, symlinks all configs via stow, and prompts for git identity (`~/.gitconfig.local`).
+`bootstrap.sh` installs Homebrew, initializes git submodules, runs `brew bundle` from `brew/.Brewfile`, symlinks all configs via stow, installs TPM plugins, and prompts for git identity (`~/.gitconfig.local`).
 
 **Flags:**
 - `--skip-brew` — skip Homebrew install and bundle (useful when brew is already set up)

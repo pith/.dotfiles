@@ -121,6 +121,21 @@ EOF
   log_info "Git local config created at ~/.gitconfig.local"
 }
 
+init_submodules() {
+  log_info "Initializing git submodules..."
+  git -C "$DOTFILES_DIR" submodule update --init --recursive
+}
+
+install_tpm_plugins() {
+  local tpm_installer="$HOME/.tmux/plugins/tpm/bin/install_plugins"
+  if [[ -x "$tpm_installer" ]]; then
+    log_info "Installing TPM plugins..."
+    "$tpm_installer"
+  else
+    log_warn "TPM not found at $tpm_installer — skipping plugin install"
+  fi
+}
+
 install_pre_commit_hooks() {
   if command -v pre-commit &>/dev/null; then
     log_info "Installing pre-commit hooks..."
@@ -137,7 +152,9 @@ main() {
 
   install_homebrew
   install_dependencies
+  init_submodules
   setup_dotfiles
+  install_tpm_plugins
   setup_git_config
   install_pre_commit_hooks
 

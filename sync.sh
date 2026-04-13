@@ -84,11 +84,27 @@ update_dependencies() {
   brew link ffmpeg-full imagemagick-full -f --overwrite 2>/dev/null || true
 }
 
+update_submodules() {
+  log_info "Updating git submodules..."
+  # Checks out the pinned commits recorded in the repo after the pull.
+  git -C "$DOTFILES_DIR" submodule update --init --recursive
+}
+
 restow_dotfiles() {
   local -a packages=(aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux vim wezterm yazi zsh)
 
   log_info "Restowing dotfiles..."
   stow -R "${packages[@]}"
+}
+
+update_tpm_plugins() {
+  local tpm_updater="$HOME/.tmux/plugins/tpm/bin/update_plugins"
+  if [[ -x "$tpm_updater" ]]; then
+    log_info "Updating TPM plugins..."
+    "$tpm_updater" all
+  else
+    log_warn "TPM not found at $tpm_updater — skipping plugin update"
+  fi
 }
 
 #### Main ####
@@ -97,8 +113,10 @@ main() {
   log_info "Syncing dotfiles..."
 
   pull_latest
+  update_submodules
   update_dependencies
   restow_dotfiles
+  update_tpm_plugins
 
   log_info "Sync complete! Restart your terminal or run: exec zsh -l"
 }
