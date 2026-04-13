@@ -8,11 +8,11 @@
 
 ## User
 
-You are a senior software engineer. You are a Lua expert and write clean code. 
+You are a senior software engineer. You are a Lua expert and write clean code.
 
 I want to be able to switch between projects instantly. I also want to have persistent project sessions (ex: running DB or backend). I don't have use case for SSH multiplexing.
 
-I'm using Wezterm as a terminal. See my config: @wezterm/.wezterm.lua. 
+I'm using Wezterm as a terminal. See my config: @wezterm/.wezterm.lua.
 Rewrite tmux-sessionizer script (from ThePrimeagen) in Lua with native Wezterm multiplexing capabilities.
 
 ---
@@ -50,7 +50,7 @@ local scanner = require("project-scanner")
 
 -- Returns: { { path = "/full/path", name = "project1", icon = "📁" }, ... }
 local projects = scanner.scan_projects({
-  search_paths = { 
+  search_paths = {
     wezterm.home_dir .. "/workspace",
     wezterm.home_dir .. "/dotfiles"  -- Special case
   },
@@ -117,7 +117,7 @@ return {
   layout = {
     -- Option 1: Simple pane
     { label = "editor", cwd = ".", command = "nvim ." },
-    
+
     -- Option 2: Container with direction
     {
       direction = "vertical",  -- or "horizontal"
@@ -202,16 +202,16 @@ function switch_to_project(path, name, config)
     activate_workspace(name)
     return
   end
-  
+
   -- 2. Create new workspace
   local window = spawn_new_window({
     workspace = name,
     cwd = path
   })
-  
+
   -- 3. Set workspace title to show in UI
   window:set_title(config.icon .. " " .. name)
-  
+
   -- 4. Build pane layout
   local root_pane = window:active_pane()
   pane_builder.build_layout(window, root_pane, config.layout, path)
@@ -271,7 +271,7 @@ config.keys = {
         },
         max_depth = 2
       })
-      
+
       -- Build launcher menu choices
       local choices = {}
       for _, proj in ipairs(projects) do
@@ -280,7 +280,7 @@ config.keys = {
           label = proj.icon .. " " .. proj.name
         })
       end
-      
+
       -- Show launcher menu
       window:perform_action(
         wezterm.action.InputSelector({
@@ -289,7 +289,7 @@ config.keys = {
           fuzzy = true,
           action = wezterm.action_callback(function(window, pane, id, label)
             if not id then return end  -- User cancelled
-            
+
             -- Find selected project
             local selected = nil
             for _, proj in ipairs(projects) do
@@ -298,10 +298,10 @@ config.keys = {
                 break
               end
             end
-            
+
             -- Load project config
             local proj_config = config_loader.load(selected.path)
-            
+
             -- Switch/create workspace
             workspace_manager.switch_to_project(
               selected.path,
@@ -361,7 +361,7 @@ return {
     panes = {
       -- Left: Editor (60%)
       { label = "editor", cwd = ".", command = "nvim .", size = 0.6 },
-      
+
       -- Right: Split horizontally (40%)
       {
         direction = "horizontal",
@@ -747,4 +747,3 @@ I've completed the comprehensive plan above. Before I proceed with implementatio
    - Start with a minimal working version (just scanner + basic switching, no complex layouts)
 
 Let me know your preferences and I'll proceed with the implementation!
-
