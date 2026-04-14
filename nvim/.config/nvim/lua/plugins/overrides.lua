@@ -1,5 +1,17 @@
 return {
   {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      filesystem = {
+        filtered_items = {
+          visible = true,
+          hide_dotfiles = false,
+          hide_gitignored = false,
+        },
+      },
+    },
+  },
+  {
     -- copilot.lua runs node outside the shell, so it doesn't inherit the PATH
     -- that mise sets up. Point it at the mise-managed node binary directly.
     "zbirenbaum/copilot.lua",
