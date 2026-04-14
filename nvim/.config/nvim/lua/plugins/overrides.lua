@@ -62,9 +62,18 @@ return {
     },
   },
   {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "scss" },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        -- cssls handles CSS, SCSS, and Less via the VS Code CSS language server.
+        -- Mason installs it as "css-lsp".
+        cssls = {},
         vtsls = {
           settings = {
             typescript = {
@@ -89,6 +98,7 @@ return {
         json = { "prettier" },
         jsonc = { "prettier" },
         css = { "prettier" },
+        scss = { "prettier" },
         html = { "prettier" },
         markdown = { "prettier" },
       },
