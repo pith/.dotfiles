@@ -1,0 +1,7 @@
+# Global markdownlint-cli2 config.
+# markdownlint-cli2 walks up from the linted file; this catches any markdown
+# file under $HOME that doesn't have a project-level config.
+
+config:
+  # MD013: Line length. Disabled — prose lines aren't hard-wrapped at 80.
+  MD013: false
