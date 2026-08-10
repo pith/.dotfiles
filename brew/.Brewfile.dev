@@ -6,6 +6,7 @@ brew "neovim"      # Text editor
 brew "lazygit"     # Terminal UI for git
 brew "tree-sitter" # Parser generator (neovim dependency)
 brew "k9s"         # Kubernetes cluster manager TUI
+brew "tuicr"       # Code review TUI with vim keybindings
 brew "webp"        # WebP image format tools
 brew "stylua"      # Lua formatter (mirrors Mason-managed version in Neovim)
 brew "gnupg"       # GPG for signature verification (e.g., mise)
