@@ -1,1 +1,10 @@
 --glob=!package-lock.json
+
+# Catppuccin Mocha (no official catppuccin/ripgrep port exists; colors match
+# the palette already used by fzf/bat/eza elsewhere in this repo)
+--colors=match:fg:243,139,168
+--colors=match:style:bold
+--colors=path:fg:137,180,250
+--colors=path:style:bold
+--colors=line:fg:249,226,175
+--colors=column:fg:249,226,175

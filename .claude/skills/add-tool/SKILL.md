@@ -131,7 +131,7 @@ After theming, add a row to the table below: `| ToolName | ✅ brief description
 | Aerospace | N/A — no colorable UI in use (`aerospace.toml` sets no borders/colors) |
 | Mise | N/A — CLI version manager, no themable output surface |
 | Sesh | N/A — picker UI is Fzf, already themed above |
-| Ripgrep | ❌ not themed — `ripgreprc` has no `--colors` config; catppuccin/ripgrep exists |
+| Ripgrep | ✅ `--colors` flags in `ripgrep/.config/ripgrep/ripgreprc` (no official port exists, applied manually) |
 | Vim | ❌ not themed — `.vimrc` only has `syntax on`, no colorscheme set |
 
 ---
