@@ -111,9 +111,23 @@ blue      = "#89b4fa"    # Functions, links
 lavender  = "#b4befe"    # Variables, parameters
 ```
 
-After theming, update the theme status table in `CLAUDE.md` (which is a symlink to `AGENTS.md`):
-- Find the `### Current theme status` table
-- Add a row: `| ToolName | ✅ brief description of how theme is applied |`
+After theming, add a row to the table below: `| ToolName | ✅ brief description of how theme is applied |`
+
+### Current theme status
+
+| Tool | Status |
+|------|--------|
+| Neovim | ✅ catppuccin/nvim, `catppuccin-mocha`, transparent background |
+| WezTerm | ✅ `color_scheme = "Catppuccin Mocha"` |
+| Tmux | ✅ catppuccin/tmux plugin, `flavor = "mocha"` |
+| Starship | ✅ `palette = "catppuccin_mocha"` |
+| Bat | ✅ `--theme="Catppuccin Mocha"` + theme files in `bat/.config/bat/themes/` |
+| Eza | ✅ hex colors in `eza/.config/eza/theme.yml` |
+| Yazi | ✅ `theme.toml` + `Catppuccin-mocha.tmTheme` |
+| Delta | ✅ `features = catppuccin-mocha` block in `git/.gitconfig` |
+| Lazygit | ✅ `gui.theme` in `lazygit/.config/lazygit/config.yml` |
+| Fzf | ✅ `FZF_DEFAULT_OPTS` colors in `zsh/.config/zsh/03_fzf.zsh` |
+| zsh-syntax-highlighting | ✅ `ZSH_HIGHLIGHT_STYLES` in `zsh/.config/zsh/02_autocompletion.zsh` |
 
 ---
 

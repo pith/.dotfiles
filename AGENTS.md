@@ -4,27 +4,13 @@ AI agent instructions for working with this dotfiles repository.
 
 ## Repository Overview
 
-This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking. It includes configurations for aerospace (window manager), brew (package manager), git, mise (tool version manager), nvim, sesh (tmux session manager), vim, wezterm (terminal), zsh (shell), starship (prompt), and tmux. Setup uses two scripts: `bootstrap.sh` (run once on a new machine — installs Homebrew, brew bundle, stow, git identity) and `sync.sh` (run after every git pull — pulls latest, updates brew packages, restows symlinks).
+This repository contains personal macOS dotfiles managed with GNU stow for automatic symlinking; run `ls` at the repo root for the current tool list. Setup uses two scripts: `bootstrap.sh` (run once on a new machine — installs Homebrew, brew bundle, stow, git identity) and `sync.sh` (run after every git pull — pulls latest, updates brew packages, restows symlinks).
 
 ## Build, Lint, and Test Commands
 
 **No formal test suite exists.** Manual testing is the primary validation method.
 
-### Linting
-
-```bash
-# Lint shell scripts (if shellcheck installed)
-shellcheck bootstrap.sh sync.sh capture.sh zsh/.config/zsh/*.zsh
-
-# Format shell scripts (if shfmt installed)
-shfmt -w -i 2 bootstrap.sh sync.sh capture.sh
-
-# Format Lua files (Neovim configs)
-cd nvim/.config/nvim && stylua . --config-path stylua.toml
-
-# Validate Brewfile syntax
-brew bundle check --file ./brew/.Brewfile
-```
+Run `make help` for the available lint/format targets (`make lint` runs pre-commit across all files, `make format` runs stylua).
 
 ### Testing
 
@@ -85,26 +71,7 @@ fi
 
 ### Lua (Neovim, WezTerm)
 
-**Style:**
-- 2-space indentation (enforced by stylua)
-- 120 character line width
-- Use `local` for all variables
-- Single-line comments: `--`
-- Return config objects
-
-**Example:**
-```lua
-local config = require("module")
-
-local settings = {
-  key = "value",
-  nested = {
-    inner = "value"
-  }
-}
-
-return settings
-```
+Formatting is enforced mechanically by `stylua.toml` + the pre-commit hook.
 
 ### TOML (AeroSpace, Starship, Sesh)
 
@@ -112,105 +79,11 @@ return settings
 - Inline comments after values for clarification
 - Section comments with documentation links
 
-### File Organization
-
-**zsh/.config/zsh/ naming:**
-- `01_*.zsh` - System configuration (PATH)
-- `02_*.zsh` - Shell behavior (aliases, completion, prompt)
-- `03_*.zsh` - Tool-specific configs
-- `local/` - Machine-local secrets (gitignored, not in git)
-
-## Structure & Organization
-
-```
-dotfiles/
-├── bootstrap.sh          # One-time provisioning (installs brew + deps, stow, git identity)
-├── sync.sh               # Ongoing sync: git pull, brew update, restow
-├── capture.sh            # Utility to capture new dotfiles into stow structure
-├── brew/
-│   └── .Brewfile         # Homebrew dependencies (formulae, casks, mas, vscode)
-├── aerospace/
-│   └── .config/aerospace/  # Window manager config
-├── git/
-│   ├── .gitconfig              # Git configuration (shared, no personal info)
-│   ├── .gitconfig.local.example # Template for machine-specific [user] section
-│   └── .gitignore_global       # Global git ignore patterns
-├── mise/
-│   └── .config/mise/
-│       ├── config.toml             # Global tool versions + settings (node=lts, idiomatic files)
-│       └── default-npm-packages    # Auto-installed npm globals on each node install
-├── nvim/
-│   └── .config/nvim/     # Neovim configuration
-├── sesh/
-│   └── .config/sesh/     # Sesh tmux session manager config
-├── starship/
-│   └── .config/starship/ # Starship prompt config
-├── vim/
-│   └── .vimrc            # Vim configuration
-├── wezterm/
-│   └── .wezterm.lua      # WezTerm terminal config
-└── zsh/
-    ├── .zshrc            # Main zsh config (sources ~/.config/zsh/*.zsh)
-    ├── .zprofile         # Zsh profile
-    └── .config/zsh/      # Modular zsh configs (stow-managed, XDG-compliant)
-        ├── 01_path.zsh       # PATH configuration
-        ├── 02_alias.zsh      # Shell aliases
-        ├── 02_autocompletion.zsh
-        ├── 02_prompt.zsh     # Prompt setup
-        ├── 03_docker.zsh     # Docker-specific config
-        ├── 03_fzf.zsh        # FZF fuzzy finder config
-        ├── 03_mise.zsh       # mise activation (node, python, etc.)
-        ├── 03_rust.zsh       # Rust toolchain config
-        └── local/            # Machine-local secrets (gitignored)
-            └── secret_*.zsh  # Never committed
-```
-
-**Key Conventions:**
-- Each tool has its own directory at repo root
-- Stow expects the same structure as $HOME (e.g., `zsh/.zshrc` → `~/.zshrc`)
-- Files starting with `.` are dotfiles that get symlinked
-- Zsh configs live in `zsh/.config/zsh/` (XDG-compliant, stow-managed → `~/.config/zsh/`)
-- Numbered prefixes in `zsh/.config/zsh/` control load order
-- Machine-local secrets go in `zsh/.config/zsh/local/` (gitignored)
-- Machine-specific git config goes in `~/.gitconfig.local` (gitignored via `*.local`)
+Zsh config naming and load-order conventions live in `zsh/.config/zsh/CLAUDE.md`. Repo layout and Brewfile structure are derivable via `ls`/`find` — see `AI Agent Guidelines` below for what isn't obvious from the tree.
 
 ## Theme
 
-**All tools use Catppuccin Mocha.** When adding a new tool config, always check https://github.com/catppuccin/catppuccin for an official port and apply it before committing.
-
-### Current theme status
-
-| Tool | Status |
-|------|--------|
-| Neovim | ✅ catppuccin/nvim, `catppuccin-mocha`, transparent background |
-| WezTerm | ✅ `color_scheme = "Catppuccin Mocha"` |
-| Tmux | ✅ catppuccin/tmux plugin, `flavor = "mocha"` |
-| Starship | ✅ `palette = "catppuccin_mocha"` |
-| Bat | ✅ `--theme="Catppuccin Mocha"` + theme files in `bat/.config/bat/themes/` |
-| Eza | ✅ hex colors in `eza/.config/eza/theme.yml` |
-| Yazi | ✅ `theme.toml` + `Catppuccin-mocha.tmTheme` |
-| Delta | ✅ `features = catppuccin-mocha` block in `git/.gitconfig` |
-| Lazygit | ✅ `gui.theme` in `lazygit/.config/lazygit/config.yml` |
-| Fzf | ✅ `FZF_DEFAULT_OPTS` colors in `zsh/.config/zsh/03_fzf.zsh` |
-| zsh-syntax-highlighting | ✅ `ZSH_HIGHLIGHT_STYLES` in `zsh/.config/zsh/02_autocompletion.zsh` |
-
-### Adding a theme to a new tool
-
-1. Check https://github.com/catppuccin/catppuccin — search for the tool name
-2. If a port exists, apply the **Mocha** flavor
-3. If no port exists, use the Mocha palette directly:
-
-```
-base      #1e1e2e    surface0  #313244    overlay1  #7f849c
-mantle    #181825    surface1  #45475a    overlay2  #9399b2
-crust     #11111b    surface2  #585b70    subtext0  #a6adc8
-                     overlay0  #6c7086    subtext1  #bac2de
-text      #cdd6f4    blue      #89b4fa    green     #a6e3a1
-lavender  #b4befe    sapphire  #74c7ec    teal      #94e2d5
-mauve     #cba6f7    sky       #89dceb    yellow    #f9e2af
-pink      #f38ba8    peach     #fab387    red       #f38ba8
-flamingo  #f2cdcd    maroon    #eba0ac    rosewater #f5e0dc
-```
+**All tools use Catppuccin Mocha.** When adding a new tool config, always check https://github.com/catppuccin/catppuccin for an official port and apply it before committing — see the `add-tool` skill for the palette and per-tool theme status.
 
 ## AI Agent Guidelines
 
@@ -239,9 +112,8 @@ flamingo  #f2cdcd    maroon    #eba0ac    rosewater #f5e0dc
 ### Platform Considerations
 
 - **macOS only** - Don't add Linux-specific configs without conditional checks
-- Homebrew paths: `/opt/homebrew` (Apple Silicon) or `/usr/local` (Intel)
+- Homebrew paths: `/opt/homebrew` (Apple Silicon)
 - Use `$(brew --prefix)` for portable brew references
-- Check for macOS-specific binaries before use (e.g., `pbcopy`, `open`)
 
 ### Dependencies Between Configs
 
@@ -291,69 +163,7 @@ flamingo  #f2cdcd    maroon    #eba0ac    rosewater #f5e0dc
 
 ## Common Operations
 
-### Adding a New Dotfile Configuration
-
-```bash
-# Option 1: Use capture.sh (recommended)
-./capture.sh ~/.config/newtool newtool
-
-# Option 2: Manual
-mkdir -p newtool/.config/newtool
-cp -r ~/.config/newtool/* newtool/.config/newtool/
-
-# Add to the packages array in bootstrap.sh and sync.sh
-# Before: packages=(aerospace brew git nvim ripgrep sesh starship tmux vim wezterm zsh)
-# After:  packages=(aerospace brew git newtool nvim ripgrep sesh starship tmux vim wezterm zsh)
-
-# Test
-stow -n -v newtool
-stow newtool
-```
-
-### Updating Existing Tool Configs
-
-```bash
-# Edit directly in repo
-vim nvim/.config/nvim/init.lua
-
-# Changes are live (symlinked)
-# Restart tool or reload config
-```
-
-### Adding Brew Packages
-
-```bash
-# Edit Brewfile
-vim brew/.Brewfile
-
-# Add entries:
-# brew "package-name"           # CLI tool
-# cask "app-name"               # GUI app
-# mas "App Name", id: 123456    # Mac App Store
-# vscode "publisher.extension"  # VSCode extension
-
-# Install
-brew bundle --file ./brew/.Brewfile
-
-# Cleanup removed packages (optional)
-brew bundle cleanup --file ./brew/.Brewfile
-```
-
-### Modifying Shell Setup
-
-```bash
-# For PATH changes
-vim zsh/.config/zsh/01_path.zsh
-
-# For aliases
-vim zsh/.config/zsh/02_alias.zsh
-
-# For tool-specific config (e.g., docker, fzf, node)
-vim zsh/.config/zsh/03_<toolname>.zsh
-
-# Test
-source ~/.zshrc
-```
+Adding a new tool (Brewfile entry, config structure, theme, `bootstrap.sh`/`sync.sh` registration) is fully covered by the `add-tool` skill — use it instead of doing this by hand. For editing an existing config, just edit the file in the repo; the symlink makes it live immediately.
 
 ## Critical Constraints
 
