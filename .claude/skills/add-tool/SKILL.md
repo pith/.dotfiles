@@ -1,6 +1,6 @@
 ---
 name: add-tool
-description: Add a new tool to the stow-based dotfiles repo — handles Brewfile, config structure, Catppuccin Mocha theme, setup.sh registration, optional zsh integration, and stow validation.
+description: Add a new tool to the stow-based dotfiles repo — handles Brewfile, config structure, Catppuccin Mocha theme, bootstrap.sh/sync.sh registration, optional zsh integration, and stow validation.
 argument-hint: <tool-name>
 disable-model-invocation: true
 allowed-tools: Read Write Edit Bash Glob Grep
@@ -128,6 +128,11 @@ After theming, add a row to the table below: `| ToolName | ✅ brief description
 | Lazygit | ✅ `gui.theme` in `lazygit/.config/lazygit/config.yml` |
 | Fzf | ✅ `FZF_DEFAULT_OPTS` colors in `zsh/.config/zsh/03_fzf.zsh` |
 | zsh-syntax-highlighting | ✅ `ZSH_HIGHLIGHT_STYLES` in `zsh/.config/zsh/02_autocompletion.zsh` |
+| Aerospace | N/A — no colorable UI in use (`aerospace.toml` sets no borders/colors) |
+| Mise | N/A — CLI version manager, no themable output surface |
+| Sesh | N/A — picker UI is Fzf, already themed above |
+| Ripgrep | ❌ not themed — `ripgreprc` has no `--colors` config; catppuccin/ripgrep exists |
+| Vim | ❌ not themed — `.vimrc` only has `syntax on`, no colorscheme set |
 
 ---
 
@@ -166,15 +171,17 @@ alias tl="toolname list"
 
 ---
 
-## Step 5 — Register in setup.sh
+## Step 5 — Register in bootstrap.sh and sync.sh
 
-Add the tool name to the `packages` array in `setup.sh` at line 74:
+`setup.sh` is a deprecated wrapper that just execs `bootstrap.sh` — do not edit it. The `packages` array is maintained independently in **both** `bootstrap.sh` and `sync.sh`; both must be updated or the tool won't get stowed on one of the two paths (fresh install vs. `git pull` sync).
 
-```zsh
-local -a packages=(aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux vim wezterm yazi zsh)
+Find the array in each file (don't rely on a hardcoded line number, it drifts):
+
+```bash
+grep -n "local -a packages" bootstrap.sh sync.sh
 ```
 
-**Keep the list alphabetically sorted.** Insert the new tool name in the correct position.
+Add the new tool name to the array in **both** files. **Keep the list alphabetically sorted** in each.
 
 ---
 
@@ -224,9 +231,9 @@ Stage only files in the dotfiles repo (never in `$HOME`):
 ```bash
 git add <tool>/
 git add brew/.Brewfile.<subfile>
-git add setup.sh
+git add bootstrap.sh sync.sh
 git add zsh/.config/zsh/03_<toolname>.zsh  # if created
-git add AGENTS.md  # if theme table was updated
+git add .claude/skills/add-tool/SKILL.md  # if theme table was updated
 
 git commit -m "feat(<tool>): add <tool> config"
 ```
@@ -237,11 +244,4 @@ Conventional commit format: `feat(<tool>): add <tool> config [with Catppuccin Mo
 
 ## Quick Reference
 
-**Critical constraints:**
-- Never edit files in `$HOME` directly — always edit in the dotfiles repo
-- Always run `stow -n -v` (dry-run) before `stow`
-- Quote all shell variables: `"$VARIABLE"`
-- Use `$(brew --prefix)` not `/opt/homebrew` for portability
-- `setup.sh` must remain idempotent (safe to run multiple times)
-- The `packages` array in `setup.sh` must stay alphabetically sorted
-- All tools must use Catppuccin Mocha — check for official port first
+The critical constraints (never edit `$HOME` directly, dry-run stow before applying, quote variables, use `$(brew --prefix)`, alphabetical `packages` arrays, Catppuccin Mocha for every tool) are each called out at the step above where they apply — see Steps 1–8, not a restated list here.
