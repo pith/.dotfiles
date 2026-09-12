@@ -95,7 +95,7 @@ update_submodules() {
 }
 
 restow_dotfiles() {
-  local -a packages=(aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux vim wezterm yazi zsh)
+  local -a packages=(aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux wezterm yazi zsh)
 
   log_info "Restowing dotfiles..."
   stow -R "${packages[@]}"

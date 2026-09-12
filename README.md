@@ -42,7 +42,6 @@ make sync
 | `git/`       | Git config (no personal info)     |
 | `nvim/`      | Neovim                            |
 | `starship/`  | Starship prompt                   |
-| `vim/`       | Vim                               |
 | `tmux/`      | Tmux + TPM + Catppuccin theme     |
 | `wezterm/`   | WezTerm terminal                  |
 | `zsh/`       | Zsh shell + XDG-compliant configs |

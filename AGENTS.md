@@ -189,7 +189,7 @@ Adding a new tool (Brewfile entry, config structure, theme, `bootstrap.sh`/`sync
 ./capture.sh <source_path> <config_name>
 
 # Re-apply all symlinks
-stow -R aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux vim wezterm yazi zsh
+stow -R aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux wezterm yazi zsh
 
 # Remove symlinks
 stow -D <package_name>

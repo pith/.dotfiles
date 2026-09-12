@@ -132,7 +132,6 @@ After theming, add a row to the table below: `| ToolName | ✅ brief description
 | Mise | N/A — CLI version manager, no themable output surface |
 | Sesh | N/A — picker UI is Fzf, already themed above |
 | Ripgrep | ✅ `--colors` flags in `ripgrep/.config/ripgrep/ripgreprc` (no official port exists, applied manually) |
-| Vim | ❌ not themed — `.vimrc` only has `syntax on`, no colorscheme set |
 
 ---
 

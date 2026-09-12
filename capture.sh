@@ -15,7 +15,6 @@ usage() {
     echo ""
     echo "Examples:"
     echo "  $0 ~/.zsh zsh           # Moves ~/.zsh to ~/dotfiles/zsh/.zsh"
-    echo "  $0 ~/.vimrc vim         # Moves ~/.vimrc to ~/dotfiles/vim/.vimrc"
     echo "  $0 ~/.config/git git    # Moves ~/.config/git to ~/dotfiles/git/.config/git"
     echo ""
     echo "The captured files will be placed in ~/dotfiles/<config_name>/<captured_path>"
