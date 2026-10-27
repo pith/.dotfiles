@@ -1,0 +1,4 @@
+# Skip in searches (rg --hidden / Grep): git internals and vendored tmux plugins (submodules, TPM installs)
+.git/
+tmux/.config/tmux/plugins/
+tmux/.tmux/plugins/
