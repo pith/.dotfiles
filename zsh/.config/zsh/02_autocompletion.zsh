@@ -22,8 +22,7 @@ bindkey '\e[A' history-search-backward
 bindkey '\e[B' history-search-forward
 
 ##### Enable substring search history (https://github.com/zsh-users/zsh-history-substring-search)
-local brew_prefix
-brew_prefix="$(brew --prefix)"
+local brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"  # set by `brew shellenv` in .zprofile
 
 local plugin="$brew_prefix/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
 [[ -f "$plugin" ]] && source "$plugin"
