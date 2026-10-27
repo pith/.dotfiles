@@ -6,7 +6,15 @@ repos:
         name: zsh syntax check
         language: system
         entry: zsh -n
-        files: \.zsh$
+        files: (\.zsh|^[^/]+\.sh)$ # .zsh files + root scripts (bootstrap.sh etc. are zsh); nested .sh may be bash
+
+      # herdr disables an unparseable keybinding with only a warning; this fails instead
+      - id: herdr-config-check
+        name: herdr config check
+        language: system
+        entry: env XDG_CONFIG_HOME=herdr/.config herdr config check
+        files: ^herdr/\.config/herdr/config\.toml$
+        pass_filenames: false
 
   # Lua formatting — check mode (formats on save in Neovim; CI only checks)
   - repo: https://github.com/JohnnyMorganz/StyLua
