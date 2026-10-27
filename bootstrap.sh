@@ -79,6 +79,9 @@ setup_dotfiles() {
 
   log_info "Setting up dotfiles with GNU stow..."
 
+  # Pre-create so stow links files, not the whole dir: herdr writes its socket and plugins here
+  mkdir -p "$HOME/.config/herdr"
+
   # Dry-run to detect conflicts before touching anything
   if stow -n "${packages[@]}" 2>/dev/null; then
     stow "${packages[@]}"
@@ -136,6 +139,26 @@ install_tpm_plugins() {
   fi
 }
 
+install_herdr_plugins() {
+  local -a plugins=(aimdevlee/herdr-nvim-nav fullerzz/herdr-plugin-sesh)
+  if ! command -v herdr &>/dev/null; then
+    log_warn "herdr not found — skipping plugin install"
+    return
+  fi
+  local installed plugin
+  installed="$(herdr plugin list --json | jq -r '.result.plugins[].source | select(.kind == "github") | "\(.owner)/\(.repo)"')"
+  for plugin in "${plugins[@]}"; do
+    if ! grep -qx "$plugin" <<< "$installed"; then
+      log_info "Installing herdr plugin $plugin..."
+      herdr plugin install "$plugin" --yes
+    fi
+  done
+  # Claude Code session hook (lets herdr resume Claude sessions); needs ~/.claude to exist
+  if [[ -d "$HOME/.claude" ]]; then
+    herdr integration install claude
+  fi
+}
+
 install_pre_commit_hooks() {
   if command -v pre-commit &>/dev/null; then
     log_info "Installing pre-commit hooks..."
@@ -155,6 +178,7 @@ main() {
   init_submodules
   setup_dotfiles
   install_tpm_plugins
+  install_herdr_plugins
   setup_git_config
   install_pre_commit_hooks
 

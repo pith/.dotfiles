@@ -1,5 +1,58 @@
-# Catppuccin Mocha: herdr's built-in "catppuccin" theme already matches Mocha
-# (default accent #89b4fa = Mocha blue), so it's pinned explicitly here rather
-# than relying on herdr's default.
+onboarding = false
+# Keymap and look mirror tmux/.config/tmux/tmux.conf (tmux defaults included) so
+# muscle memory carries over. Only non-default values are set; see the full
+# reference with `herdr --default-config`. Validate with `herdr config check`.
+
 [theme]
+# Catppuccin Mocha: herdr's built-in "catppuccin" theme already matches Mocha
+# (default accent #89b4fa = Mocha blue).
 name = "catppuccin"
+
+[theme.custom]
+panel_bg = "reset" # terminal background, like @catppuccin_*_background "default"
+
+[keys]
+prefix = "ctrl+a"
+
+reload_config = "prefix+r"       # tmux.conf: bind r source-file
+resize_mode = "prefix+shift+r"   # moved off prefix+r to make room for reload
+split_vertical = "prefix+|"      # side by side, like tmux.conf `bind |`; `prefix+minus` stacked is already the default
+detach = "prefix+d"              # tmux default (herdr: prefix+q)
+rename_tab = "prefix+comma"      # tmux default rename-window (herdr: prefix+shift+t)
+close_tab = "prefix+ampersand"   # tmux default kill-window (herdr: prefix+shift+x)
+last_pane = "prefix+semicolon"   # tmux default last-pane (herdr: unset)
+
+# vim-tmux-navigator replacement: Ctrl+h/j/k/l across Neovim splits and herdr panes.
+# Plugin: aimdevlee/herdr-nvim-nav (installed by bootstrap.sh/sync.sh); Neovim half
+# lives in nvim/.config/nvim/lua/plugins/tmux.lua.
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-nvim-nav.left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-nvim-nav.down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-nvim-nav.up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-nvim-nav.right"
+
+# sesh picker replacement (tmux.conf: bind T). Plugin: fullerzz/herdr-plugin-sesh.
+# Sessions live in the local, unversioned `herdr plugin config-dir fullerzz.sesh`/config.toml.
+[[keys.command]]
+key = "prefix+shift+t"
+type = "plugin_action"
+command = "fullerzz.sesh.open-picker"
+
+[ui]
+prompt_new_tab_name = false # tmux creates windows without asking for a name
+pane_outer_borders = false  # tmux-style internal splitters, no outer frame
+pane_gaps = false           # panes share divider lines like tmux

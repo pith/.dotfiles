@@ -12,4 +12,5 @@ brew "stylua"      # Lua formatter (mirrors Mason-managed version in Neovim)
 brew "gnupg"       # GPG for signature verification (e.g., mise)
 brew "mise"        # Polyglot tool version manager (node, python, etc.)
 brew "pre-commit"  # Git hook manager
+brew "go"          # Builds herdr plugins written in Go (herdr-plugin-sesh)
 brew "tmux"

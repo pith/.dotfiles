@@ -128,6 +128,7 @@ Zsh config naming and load-order conventions live in `zsh/.config/zsh/CLAUDE.md`
 - Node (and other tools) managed by `mise` (in Brewfile.dev); activated via `03_mise.zsh` (interactive) and `.zprofile` (non-interactive/shims); global config at `mise/.config/mise/config.toml`; default npm packages at `mise/.config/mise/default-npm-packages`
 - Rust tools require rust toolchain (configured in `03_rust.zsh`)
 - Sesh requires `brew install sesh` + fzf + tmux; configured in `sesh/.config/sesh/sesh.toml`, keybinding in `tmux.conf`
+- Herdr (tmux replacement, keymap mirrors `tmux.conf`): `~/.config/herdr` must be a real directory with only `config.toml` symlinked — herdr writes its socket and plugins there, so `bootstrap.sh`/`sync.sh` `mkdir` it before stowing. Plugins are listed in `install_herdr_plugins` (bootstrap.sh) and `sync_herdr_plugins` (sync.sh); `herdr-nvim-nav` pairs with `nvim/.config/nvim/lua/plugins/tmux.lua`; `herdr-plugin-sesh` (`prefix+T`) needs `go` to build and reads sessions from the local, unversioned `$(herdr plugin config-dir fullerzz.sesh)/config.toml` (native schema, not `sesh.toml`)
 
 **Zsh plugin chain:**
 ```
@@ -188,7 +189,7 @@ Adding a new tool (Brewfile entry, config structure, theme, `bootstrap.sh`/`sync
 ./capture.sh <source_path> <config_name>
 
 # Re-apply all symlinks
-stow -R aerospace bat brew eza git lazygit mise nvim ripgrep sesh starship tmux wezterm yazi zsh
+stow -R aerospace bat brew eza git herdr lazygit mise nvim ripgrep sesh starship tmux wezterm yazi zsh
 
 # Remove symlinks
 stow -D <package_name>

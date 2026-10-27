@@ -1,12 +1,20 @@
+-- Ctrl+h/j/k/l across Neovim splits and herdr panes; falls back to
+-- vim-tmux-navigator when running under tmux ($TMUX set).
 return {
-  "christoomey/vim-tmux-navigator",
+  "aimdevlee/herdr-nvim-nav",
   lazy = false,
-  -- Force these keybindings to always point to the navigator
+  dependencies = {
+    {
+      "christoomey/vim-tmux-navigator",
+      init = function()
+        vim.g.tmux_navigator_no_mappings = 1
+      end,
+    },
+  },
   keys = {
-    { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-    { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-    { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-    { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
     { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
   },
+  config = function()
+    require("herdr-nvim-nav").setup()
+  end,
 }
