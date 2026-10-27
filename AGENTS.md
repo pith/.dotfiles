@@ -163,10 +163,6 @@ Zsh config naming and load-order conventions live in `zsh/.config/zsh/CLAUDE.md`
 - Changing how new dotfiles are imported
 - Modifying backup or symlink behavior
 
-## Common Operations
-
-Adding a new tool (Brewfile entry, config structure, theme, `lib.zsh` registration) is fully covered by the `add-tool` skill — use it instead of doing this by hand. For editing an existing config, just edit the file in the repo; the symlink makes it live immediately.
-
 ## Critical Constraints
 
 - **DON'T break symlinks** - Never `mv` or `rm` files in $HOME; edit in repo

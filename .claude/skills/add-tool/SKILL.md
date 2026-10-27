@@ -1,8 +1,7 @@
 ---
 name: add-tool
-description: Add a new tool to the stow-based dotfiles repo — handles Brewfile, config structure, Catppuccin Mocha theme, lib.zsh registration, optional zsh integration, and stow validation.
+description: Add a new tool to this stow-managed dotfiles repo (Brewfile, stow package, Catppuccin Mocha, lib.zsh). Use when the user asks to install or add a tool, CLI or app, or when creating a new stow package.
 argument-hint: <tool-name>
-disable-model-invocation: true
 allowed-tools: Read Write Edit Bash Glob Grep
 ---
 
@@ -21,7 +20,7 @@ Before doing anything, determine:
 5. **Zsh aliases/functions?**: Any shortcuts worth adding?
 6. **Runtime state in the config dir?**: Does the tool write sockets, plugins, caches or session files into its config dir? Check its docs for socket, plugin and state paths (herdr writes all three into `~/.config/herdr`). If yes, Step 6 keeps that dir out of the repo.
 
-If $ARGUMENTS was provided as an argument, start by researching it. Otherwise ask the user for the tool name first.
+Start by researching the tool: $ARGUMENTS if provided, otherwise the one named in the conversation. Ask the user only if neither names it.
 
 ---
 
