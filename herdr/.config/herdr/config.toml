@@ -45,10 +45,10 @@ key = "ctrl+l"
 type = "plugin_action"
 command = "herdr-nvim-nav.right"
 
-# sesh picker replacement (tmux.conf: bind T). Plugin: fullerzz/herdr-plugin-sesh.
+# sesh picker replacement (tmux.conf had it on `bind T`). Plugin: fullerzz/herdr-plugin-sesh.
 # Sessions live in the local, unversioned `herdr plugin config-dir fullerzz.sesh`/config.toml.
 [[keys.command]]
-key = "prefix+shift+t"
+key = "prefix+t"
 type = "plugin_action"
 command = "fullerzz.sesh.open-picker"
 
