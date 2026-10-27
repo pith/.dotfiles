@@ -150,7 +150,6 @@ Zsh config naming and load-order conventions live in `zsh/.config/zsh/CLAUDE.md`
 
 **Update `brew/.Brewfile` when:**
 - Adding/removing packages, casks, or Mac App Store apps
-- Adding VSCode extensions
 - Changing taps
 
 **Update individual configs when:**

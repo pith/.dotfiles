@@ -14,7 +14,7 @@ You are helping add **$ARGUMENTS** to the stow-managed dotfiles repository at `/
 
 Before doing anything, determine:
 
-1. **Brew install method**: `brew "name"` (CLI) / `cask "name"` (GUI) / `mas "Name", id: 123` (App Store) / `vscode "pub.ext"` (VSCode)
+1. **Brew install method**: `brew "name"` (CLI) / `cask "name"` (GUI) / `mas "Name", id: 123` (App Store)
 2. **Config path**: Where does the tool store its config? (e.g., `~/.config/tool/`, `~/.toolrc`)
 3. **Existing config?**: Does `~/.config/<tool>/` (or equivalent) already exist on this machine?
 4. **Shell init needed?**: Does the tool require `eval "$(tool init zsh)"`, PATH additions, or env vars?
@@ -33,7 +33,6 @@ Choose the correct sub-Brewfile:
 | `brew/.Brewfile.shell` | CLI shell tools | bat, eza, fzf, ripgrep, starship, yazi, sesh |
 | `brew/.Brewfile.dev` | Dev/programming tools | neovim, lazygit, gh, git-delta, mise, tmux |
 | `brew/.Brewfile.desktop` | GUI apps, casks, fonts, MAS | wezterm, aerospace, Nerd Fonts, Hidden Bar |
-| `brew/.Brewfile.vscode` | VSCode extensions | publisher.extension-id |
 | `brew/.Brewfile.core` | Bootstrap essentials only | stow, mas — do not add here |
 
 Add the entry with an inline comment explaining what the tool does. Match the style of existing entries (see examples in each file).
