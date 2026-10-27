@@ -46,7 +46,8 @@ type = "plugin_action"
 command = "herdr-nvim-nav.right"
 
 # sesh picker replacement (tmux.conf had it on `bind T`). Plugin: fullerzz/herdr-plugin-sesh.
-# Sessions live in the local, unversioned `herdr plugin config-dir fullerzz.sesh`/config.toml.
+# Sessions come from ~/.config/sesh/sesh.toml, shared with sesh (seeded by lib.zsh). Keep the
+# plugin config dir free of config.toml, which would take precedence over sesh.toml.
 [[keys.command]]
 key = "prefix+t"
 type = "plugin_action"

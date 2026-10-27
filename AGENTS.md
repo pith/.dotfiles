@@ -32,7 +32,7 @@ Zsh config naming and load order live in `zsh/.config/zsh/CLAUDE.md`. Lua format
 - `git/.gitconfig` includes `~/.gitconfig.local` (name, email, signingkey), created by `bootstrap.sh`; `*.local` is gitignored.
 - `zsh/.zshrc` sources `~/.config/zsh/*.zsh`, then machine-local secrets in `~/.config/zsh/local/*.zsh`.
 - Node and other runtimes come from `mise`: activated in `03_mise.zsh` (interactive) and `.zprofile` (non-interactive shims); config in `mise/.config/mise/`.
-- `sesh.toml` is gitignored (machine-local), so `sesh/` has no tracked files.
+- `sesh.toml` is gitignored (machine-local project paths), so `sesh/` has no tracked files; `create_sesh_config` in `lib.zsh` seeds it before stowing. sesh and herdr-plugin-sesh both read it.
 - herdr writes its socket, plugins and session state into `~/.config/herdr`, which must stay a real directory with only `config.toml` symlinked (`prepare_stow_targets` in `lib.zsh`). Plugin wiring is commented in `herdr/.config/herdr/config.toml`.
 
 ## Critical Constraints

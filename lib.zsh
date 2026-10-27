@@ -1,6 +1,8 @@
 # lib.zsh - Shared lists and helpers for bootstrap.sh and sync.sh
 # Sourced, not executed. Single source of truth for what gets stowed and installed.
 
+: "${DOTFILES_DIR:=${${(%):-%x}:A:h}}" # repo root, when sourced without the scripts
+
 #### Shared Lists ####
 
 # Stow packages (repo dirs mirroring $HOME), alphabetical
@@ -21,6 +23,26 @@ log_error() { print -P "%F{red}[ERROR]%f $*" >&2; }
 # inside them instead of folding the whole dir into a symlink to the repo.
 prepare_stow_targets() {
   mkdir -p "$HOME/.config/herdr" # herdr writes its socket, plugins and session state here
+  create_sesh_config
+}
+
+# sesh.toml is gitignored (machine-specific project paths), so a fresh clone has
+# no sesh/ package to stow. Seed a starter file; sesh (tmux) and herdr-plugin-sesh
+# (herdr prefix+t) both read it.
+create_sesh_config() {
+  local sesh_config="$DOTFILES_DIR/sesh/.config/sesh/sesh.toml"
+  if [[ -f "$sesh_config" ]]; then
+    return 0
+  fi
+  mkdir -p "${sesh_config:h}"
+  cat > "$sesh_config" << 'EOF'
+# Machine-local sesh config (gitignored): add [[session]] / [[window]] entries for your projects.
+# Read by sesh (tmux `prefix T`) and herdr-plugin-sesh (herdr `prefix+t`).
+
+[default_session]
+preview_command = "eza --all --git --icons --color=always {}"
+EOF
+  log_info "Created starter sesh config at $sesh_config"
 }
 
 # Install missing herdr plugins and the Claude Code integration.
