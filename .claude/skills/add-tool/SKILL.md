@@ -19,6 +19,7 @@ Before doing anything, determine:
 3. **Existing config?**: Does `~/.config/<tool>/` (or equivalent) already exist on this machine?
 4. **Shell init needed?**: Does the tool require `eval "$(tool init zsh)"`, PATH additions, or env vars?
 5. **Zsh aliases/functions?**: Any shortcuts worth adding?
+6. **Runtime state in the config dir?**: Does the tool write sockets, plugins, caches or session files into its config dir? Check its docs for socket, plugin and state paths (herdr writes all three into `~/.config/herdr`). If yes, Step 6 keeps that dir out of the repo.
 
 If $ARGUMENTS was provided as an argument, start by researching it. Otherwise ask the user for the tool name first.
 
@@ -177,6 +178,8 @@ Add the tool name to `STOW_PACKAGES` in `lib.zsh`, keeping it alphabetical. `boo
 ---
 
 ## Step 6 — Validate Stow
+
+**If the tool writes runtime state into its config dir** (Step 0, question 6): stow folds a target dir that doesn't exist yet into a single symlink to the repo, so everything the tool later writes there lands in the repo. Add the dir to `prepare_stow_targets` in `lib.zsh` and `mkdir -p` it before stowing; stow then links only the config files. Done when the dry run shows file-level links (`LINK: .config/<tool>/config.toml`), not a dir-level `LINK: .config/<tool>`.
 
 Always dry-run before applying:
 
