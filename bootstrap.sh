@@ -7,11 +7,8 @@
 
 set -euo pipefail
 
-#### Logging ####
-
-log_info()  { print -P "%F{green}[INFO]%f $*"; }
-log_warn()  { print -P "%F{yellow}[WARN]%f $*"; }
-log_error() { print -P "%F{red}[ERROR]%f $*" >&2; }
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$DOTFILES_DIR/lib.zsh"
 
 #### Argument Parsing ####
 
@@ -32,8 +29,6 @@ if [[ "$(uname)" != "Darwin" ]]; then
   log_error "This script is for macOS only"
   exit 1
 fi
-
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 #### Functions ####
 
@@ -75,21 +70,18 @@ install_dependencies() {
 }
 
 setup_dotfiles() {
-  local -a packages=(aerospace bat brew eza git herdr lazygit mise nvim ripgrep sesh starship tmux wezterm yazi zsh)
-
   log_info "Setting up dotfiles with GNU stow..."
 
-  # Pre-create so stow links files, not the whole dir: herdr writes its socket and plugins here
-  mkdir -p "$HOME/.config/herdr"
+  prepare_stow_targets
 
   # Dry-run to detect conflicts before touching anything
-  if stow -n "${packages[@]}" 2>/dev/null; then
-    stow "${packages[@]}"
+  if stow -n "${STOW_PACKAGES[@]}" 2>/dev/null; then
+    stow "${STOW_PACKAGES[@]}"
   else
-    log_warn "Stow conflicts detected. Inspect with: stow -n -v ${packages[*]}"
+    log_warn "Stow conflicts detected. Inspect with: stow -n -v ${STOW_PACKAGES[*]}"
     if [[ "$FORCE_INSTALL" == true ]]; then
       log_warn "Restowing with --force..."
-      stow -R "${packages[@]}"
+      stow -R "${STOW_PACKAGES[@]}"
     else
       log_error "Resolve conflicts manually or rerun with --force to override"
       return 1
@@ -136,26 +128,6 @@ install_tpm_plugins() {
     "$tpm_installer"
   else
     log_warn "TPM not found at $tpm_installer — skipping plugin install"
-  fi
-}
-
-install_herdr_plugins() {
-  local -a plugins=(aimdevlee/herdr-nvim-nav fullerzz/herdr-plugin-sesh qu8n/herdr-automatic-rename)
-  if ! command -v herdr &>/dev/null; then
-    log_warn "herdr not found — skipping plugin install"
-    return
-  fi
-  local installed plugin
-  installed="$(herdr plugin list --json | jq -r '.result.plugins[].source | select(.kind == "github") | "\(.owner)/\(.repo)"')"
-  for plugin in "${plugins[@]}"; do
-    if ! grep -qx "$plugin" <<< "$installed"; then
-      log_info "Installing herdr plugin $plugin..."
-      herdr plugin install "$plugin" --yes
-    fi
-  done
-  # Claude Code session hook (lets herdr resume Claude sessions); needs ~/.claude to exist
-  if [[ -d "$HOME/.claude" ]]; then
-    herdr integration install claude
   fi
 }
 

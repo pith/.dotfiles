@@ -7,11 +7,8 @@
 
 set -euo pipefail
 
-#### Logging ####
-
-log_info()  { print -P "%F{green}[INFO]%f $*"; }
-log_warn()  { print -P "%F{yellow}[WARN]%f $*"; }
-log_error() { print -P "%F{red}[ERROR]%f $*" >&2; }
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$DOTFILES_DIR/lib.zsh"
 
 #### Argument Parsing ####
 
@@ -30,8 +27,6 @@ if [[ "$(uname)" != "Darwin" ]]; then
   log_error "This script is for macOS only"
   exit 1
 fi
-
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 #### Functions ####
 
@@ -95,12 +90,9 @@ update_submodules() {
 }
 
 restow_dotfiles() {
-  local -a packages=(aerospace bat brew eza git herdr lazygit mise nvim ripgrep sesh starship tmux wezterm yazi zsh)
-
   log_info "Restowing dotfiles..."
-  # Pre-create so stow links files, not the whole dir: herdr writes its socket and plugins here
-  mkdir -p "$HOME/.config/herdr"
-  stow -R "${packages[@]}"
+  prepare_stow_targets
+  stow -R "${STOW_PACKAGES[@]}"
 }
 
 update_tpm_plugins() {
@@ -110,28 +102,6 @@ update_tpm_plugins() {
     "$tpm_updater" all
   else
     log_warn "TPM not found at $tpm_updater — skipping plugin update"
-  fi
-}
-
-sync_herdr_plugins() {
-  local -a plugins=(aimdevlee/herdr-nvim-nav fullerzz/herdr-plugin-sesh qu8n/herdr-automatic-rename)
-  if ! command -v herdr &>/dev/null; then
-    log_warn "herdr not found — skipping plugin sync"
-    return
-  fi
-  local installed plugin
-  installed="$(herdr plugin list --json | jq -r '.result.plugins[].source | select(.kind == "github") | "\(.owner)/\(.repo)"')"
-  for plugin in "${plugins[@]}"; do
-    if ! grep -qx "$plugin" <<< "$installed"; then
-      log_info "Installing herdr plugin $plugin..."
-      herdr plugin install "$plugin" --yes
-    fi
-  done
-  log_info "Updating herdr plugins..."
-  herdr plugin update --yes
-  # Claude Code session hook (lets herdr resume Claude sessions); needs ~/.claude to exist
-  if [[ -d "$HOME/.claude" ]]; then
-    herdr integration install claude
   fi
 }
 
@@ -145,7 +115,7 @@ main() {
   update_dependencies
   restow_dotfiles
   update_tpm_plugins
-  sync_herdr_plugins
+  install_herdr_plugins --update
 
   log_info "Sync complete! Restart your terminal or run: exec zsh -l"
 }

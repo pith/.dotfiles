@@ -128,7 +128,7 @@ Zsh config naming and load-order conventions live in `zsh/.config/zsh/CLAUDE.md`
 - Node (and other tools) managed by `mise` (in Brewfile.dev); activated via `03_mise.zsh` (interactive) and `.zprofile` (non-interactive/shims); global config at `mise/.config/mise/config.toml`; default npm packages at `mise/.config/mise/default-npm-packages`
 - Rust tools require rust toolchain (configured in `03_rust.zsh`)
 - Sesh requires `brew install sesh` + fzf + tmux; configured in `sesh/.config/sesh/sesh.toml`, keybinding in `tmux.conf`
-- Herdr (tmux replacement, keymap mirrors `tmux.conf`): `~/.config/herdr` must be a real directory with only `config.toml` symlinked — herdr writes its socket and plugins there, so `bootstrap.sh`/`sync.sh` `mkdir` it before stowing. Plugins are listed in `install_herdr_plugins` (bootstrap.sh) and `sync_herdr_plugins` (sync.sh); `herdr-nvim-nav` pairs with `nvim/.config/nvim/lua/plugins/tmux.lua`; `herdr-plugin-sesh` (`prefix+t`) needs `go` to build and reads sessions from the local, unversioned `$(herdr plugin config-dir fullerzz.sesh)/config.toml` (native schema, not `sesh.toml`); `herdr-automatic-rename` reads `herdr/.config/herdr-automatic-rename/config.sh` and needs the zsh hook in `03_herdr.zsh` for instant renames
+- Herdr (tmux replacement, keymap mirrors `tmux.conf`): `~/.config/herdr` must be a real directory with only `config.toml` symlinked — herdr writes its socket and plugins there, so `prepare_stow_targets` in `lib.zsh` creates it before stowing. Plugins are listed in `HERDR_PLUGINS` (`lib.zsh`); `herdr-nvim-nav` pairs with `nvim/.config/nvim/lua/plugins/tmux.lua`; `herdr-plugin-sesh` (`prefix+t`) needs `go` to build and reads sessions from the local, unversioned `$(herdr plugin config-dir fullerzz.sesh)/config.toml` (native schema, not `sesh.toml`); `herdr-automatic-rename` reads `herdr/.config/herdr-automatic-rename/config.sh` and needs the zsh hook in `03_herdr.zsh` for instant renames
 
 **Zsh plugin chain:**
 ```
@@ -141,9 +141,11 @@ Zsh config naming and load-order conventions live in `zsh/.config/zsh/CLAUDE.md`
 
 ### When to Update bootstrap.sh / sync.sh vs Individual Configs
 
+**Update `lib.zsh` when:**
+- Adding new tool directories to the stow package list (`STOW_PACKAGES`) or herdr plugins (`HERDR_PLUGINS`) — both scripts source it
+
 **Update `bootstrap.sh` when:**
 - Changing one-time provisioning steps (Homebrew install, git identity prompt)
-- Adding new tool directories to the stow packages list
 
 **Update `sync.sh` when:**
 - Changing the pull-and-reconcile workflow
@@ -163,7 +165,7 @@ Zsh config naming and load-order conventions live in `zsh/.config/zsh/CLAUDE.md`
 
 ## Common Operations
 
-Adding a new tool (Brewfile entry, config structure, theme, `bootstrap.sh`/`sync.sh` registration) is fully covered by the `add-tool` skill — use it instead of doing this by hand. For editing an existing config, just edit the file in the repo; the symlink makes it live immediately.
+Adding a new tool (Brewfile entry, config structure, theme, `lib.zsh` registration) is fully covered by the `add-tool` skill — use it instead of doing this by hand. For editing an existing config, just edit the file in the repo; the symlink makes it live immediately.
 
 ## Critical Constraints
 
@@ -188,8 +190,8 @@ Adding a new tool (Brewfile entry, config structure, theme, `bootstrap.sh`/`sync
 # Capture existing dotfile
 ./capture.sh <source_path> <config_name>
 
-# Re-apply all symlinks
-stow -R aerospace bat brew eza git herdr lazygit mise nvim ripgrep sesh starship tmux wezterm yazi zsh
+# Re-apply all symlinks (package list lives in lib.zsh)
+zsh -c 'source lib.zsh && prepare_stow_targets && stow -R "${STOW_PACKAGES[@]}"'
 
 # Remove symlinks
 stow -D <package_name>

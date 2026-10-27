@@ -1,6 +1,6 @@
 ---
 name: add-tool
-description: Add a new tool to the stow-based dotfiles repo — handles Brewfile, config structure, Catppuccin Mocha theme, bootstrap.sh/sync.sh registration, optional zsh integration, and stow validation.
+description: Add a new tool to the stow-based dotfiles repo — handles Brewfile, config structure, Catppuccin Mocha theme, lib.zsh registration, optional zsh integration, and stow validation.
 argument-hint: <tool-name>
 disable-model-invocation: true
 allowed-tools: Read Write Edit Bash Glob Grep
@@ -170,17 +170,9 @@ alias tl="toolname list"
 
 ---
 
-## Step 5 — Register in bootstrap.sh and sync.sh
+## Step 5 — Register in lib.zsh
 
-`setup.sh` is a deprecated wrapper that just execs `bootstrap.sh` — do not edit it. The `packages` array is maintained independently in **both** `bootstrap.sh` and `sync.sh`; both must be updated or the tool won't get stowed on one of the two paths (fresh install vs. `git pull` sync).
-
-Find the array in each file (don't rely on a hardcoded line number, it drifts):
-
-```bash
-grep -n "local -a packages" bootstrap.sh sync.sh
-```
-
-Add the new tool name to the array in **both** files. **Keep the list alphabetically sorted** in each.
+Add the tool name to `STOW_PACKAGES` in `lib.zsh`, keeping it alphabetical. `bootstrap.sh` (fresh install) and `sync.sh` (`git pull` sync) both source this list, so it is the only edit. `setup.sh` is a deprecated wrapper that execs `bootstrap.sh`; leave it as is.
 
 ---
 
@@ -230,7 +222,7 @@ Stage only files in the dotfiles repo (never in `$HOME`):
 ```bash
 git add <tool>/
 git add brew/.Brewfile.<subfile>
-git add bootstrap.sh sync.sh
+git add lib.zsh
 git add zsh/.config/zsh/03_<toolname>.zsh  # if created
 git add .claude/skills/add-tool/SKILL.md  # if theme table was updated
 
@@ -243,4 +235,4 @@ Conventional commit format: `feat(<tool>): add <tool> config [with Catppuccin Mo
 
 ## Quick Reference
 
-The critical constraints (never edit `$HOME` directly, dry-run stow before applying, quote variables, use `$(brew --prefix)`, alphabetical `packages` arrays, Catppuccin Mocha for every tool) are each called out at the step above where they apply — see Steps 1–8, not a restated list here.
+The critical constraints (never edit `$HOME` directly, dry-run stow before applying, quote variables, use `$(brew --prefix)`, alphabetical `STOW_PACKAGES`, Catppuccin Mocha for every tool) are each called out at the step above where they apply — see Steps 1–8, not a restated list here.
