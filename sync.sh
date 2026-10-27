@@ -105,6 +105,21 @@ update_tpm_plugins() {
   fi
 }
 
+# herdr-plugin-sesh reads sesh.toml through its deprecated Sesh-compatible schema;
+# warn if an auto-update above dropped that support.
+check_sesh_plugin_config() {
+  command -v herdr &>/dev/null || return 0
+  local sesh_config="$HOME/.config/sesh/sesh.toml" plugin_root
+  plugin_root="$(herdr plugin list --json | jq -r '.result.plugins[] | select(.plugin_id == "fullerzz.sesh") | .plugin_root')"
+  if [[ -z "$plugin_root" || ! -f "$sesh_config" ]]; then
+    return 0
+  fi
+  if ! "$plugin_root/bin/herdr-sesh" config validate "$sesh_config" >/dev/null 2>&1; then
+    log_warn "herdr-plugin-sesh can no longer read $sesh_config (legacy Sesh schema support may be gone): herdr prefix+t is broken, tmux sesh is unaffected."
+    log_warn "Reinstall a working release with: herdr plugin install fullerzz/herdr-plugin-sesh --ref <tag> --yes"
+  fi
+}
+
 #### Main ####
 
 main() {
@@ -116,6 +131,7 @@ main() {
   restow_dotfiles
   update_tpm_plugins
   install_herdr_plugins --update
+  check_sesh_plugin_config
 
   log_info "Sync complete! Restart your terminal or run: exec zsh -l"
 }
