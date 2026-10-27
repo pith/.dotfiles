@@ -5,6 +5,7 @@ brew "eza"                           # Modern replacement for ls
 brew "fd"                            # Fast alternative to find
 brew "fzf"                           # Fuzzy finder
 brew "ripgrep"                       # Fast grep alternative
+brew "herdr"                         # Agent multiplexer that lives in your terminal
 brew "tlrc"                          # tldr pages client
 brew "zoxide"                        # Smarter cd command
 brew "sesh"                          # Tmux session manager with fzf

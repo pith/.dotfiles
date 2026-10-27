@@ -1,0 +1,5 @@
+# Catppuccin Mocha: herdr's built-in "catppuccin" theme already matches Mocha
+# (default accent #89b4fa = Mocha blue), so it's pinned explicitly here rather
+# than relying on herdr's default.
+[theme]
+name = "catppuccin"

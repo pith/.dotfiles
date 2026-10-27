@@ -132,6 +132,7 @@ After theming, add a row to the table below: `| ToolName | ✅ brief description
 | Mise | N/A — CLI version manager, no themable output surface |
 | Sesh | N/A — picker UI is Fzf, already themed above |
 | Ripgrep | ✅ `--colors` flags in `ripgrep/.config/ripgrep/ripgreprc` (no official port exists, applied manually) |
+| Herdr | ✅ built-in `catppuccin` theme (`[theme] name = "catppuccin"` in `herdr/.config/herdr/config.toml`), default accent already matches Mocha |
 
 ---
 
