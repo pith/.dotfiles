@@ -114,7 +114,7 @@ update_tpm_plugins() {
 }
 
 sync_herdr_plugins() {
-  local -a plugins=(aimdevlee/herdr-nvim-nav fullerzz/herdr-plugin-sesh)
+  local -a plugins=(aimdevlee/herdr-nvim-nav fullerzz/herdr-plugin-sesh qu8n/herdr-automatic-rename)
   if ! command -v herdr &>/dev/null; then
     log_warn "herdr not found — skipping plugin sync"
     return
