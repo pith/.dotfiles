@@ -1,16 +1,20 @@
 # Development tools
-brew "gh"          # GitHub CLI
-brew "git-delta"   # Syntax-highlighting pager for git/diff
-brew "jq"          # JSON processor
-brew "neovim"      # Text editor
-brew "lazygit"     # Terminal UI for git
-brew "tree-sitter" # Parser generator (neovim dependency)
-brew "k9s"         # Kubernetes cluster manager TUI
-brew "tuicr"       # Code review TUI with vim keybindings
-brew "webp"        # WebP image format tools
-brew "stylua"      # Lua formatter (mirrors Mason-managed version in Neovim)
-brew "gnupg"       # GPG for signature verification (e.g., mise)
-brew "mise"        # Polyglot tool version manager (node, python, etc.)
-brew "pre-commit"  # Git hook manager
-brew "go"          # Builds herdr plugins written in Go (herdr-plugin-sesh)
+tap "atlassian/homebrew-acli"
+
+brew "gh"                   # GitHub CLI
+brew "git-delta"            # Syntax-highlighting pager for git/diff
+brew "jq"                   # JSON processor
+brew "neovim"               # Text editor
+brew "lazygit"              # Terminal UI for git
+brew "tree-sitter"          # Parser generator (neovim dependency)
+brew "k9s"                  # Kubernetes cluster manager TUI
+brew "tuicr"                # Code review TUI with vim keybindings
+brew "webp"                 # WebP image format tools
+brew "stylua"               # Lua formatter (mirrors Mason-managed version in Neovim)
+brew "gnupg"                # GPG for signature verification (e.g., mise)
+brew "mise"                 # Polyglot tool version manager (node, python, etc.)
+brew "pre-commit"           # Git hook manager
+brew "go"                   # Builds herdr plugins written in Go (herdr-plugin-sesh)
 brew "tmux"
+brew "acli"                 # Atlassian CLI (Jira/Confluence) — run: acli jira auth login --web
+brew "googleworkspace-cli"  # gws — Google Workspace CLI (Calendar/Gmail/Drive)
