@@ -6,7 +6,7 @@
 #### Shared Lists ####
 
 # Stow packages (repo dirs mirroring $HOME), alphabetical
-STOW_PACKAGES=(aerospace bat brew eza git herdr lazygit markdownlint mise nvim ripgrep sesh starship tmux wezterm yazi zsh)
+STOW_PACKAGES=(aerospace bat brew eza git herdr lazygit markdownlint mise nvim rex ripgrep sesh starship tmux wezterm yazi zsh)
 
 # herdr plugins as GitHub owner/repo, alphabetical
 HERDR_PLUGINS=(aimdevlee/herdr-nvim-nav fullerzz/herdr-plugin-sesh qu8n/herdr-automatic-rename)
